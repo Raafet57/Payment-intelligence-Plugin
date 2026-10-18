@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.09">
+  <PmtRtr>
+    <GrpHdr>
+      <MsgId>RETURN-20250321</MsgId>
+      <CreDtTm>2025-03-21T12:05:00+00:00</CreDtTm>
+      <NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr>
+    <TxInf>
+      <RtrId>RETURN-EURO-15</RtrId>
+      <OrgnlGrpInf><OrgnlMsgId>FX-MULTI-303</OrgnlMsgId><OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId></OrgnlGrpInf><OrgnlInstrId>EURO-FX-303</OrgnlInstrId>
+      <OrgnlEndToEndId>FX-RET-INV-303</OrgnlEndToEndId><OrgnlUETR>b1c2d3e4-5678-4abc-9def-1234567890ab</OrgnlUETR><RtrdIntrBkSttlmAmt Ccy="USD">25000.00</RtrdIntrBkSttlmAmt>
+      <IntrBkSttlmDt>2025-03-21</IntrBkSttlmDt><ChrgBr>SHAR</ChrgBr>
+      <InstgAgt><FinInstnId><BICFI>HMBKTH2BXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>HMBKUS33XXX</BICFI></FinInstnId></InstdAgt><RtrChain><Dbtr><Pty><Nm>Original Debtor</Nm></Pty></Dbtr><Cdtr><Pty><Nm>Original Beneficiary</Nm></Pty></Cdtr></RtrChain><RtrRsnInf>
+        <Rsn><Cd>AC06</Cd></Rsn>
+        <AddtlInf>Closed account</AddtlInf>
+      </RtrRsnInf>
+    </TxInf>
+  </PmtRtr>
+</Document>

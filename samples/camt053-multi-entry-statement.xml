@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<camt:Document xmlns:camt="urn:iso:std:iso:20022:tech:xsd:camt.053.001.08">
+  <camt:BkToCstmrStmt>
+    <camt:GrpHdr>
+      <camt:MsgId>MULTI-ENTRY-20250315</camt:MsgId>
+      <camt:CreDtTm>2025-03-15T05:40:00+00:00</camt:CreDtTm>
+    </camt:GrpHdr>
+    <camt:Stmt><camt:Id>HARMONY-DAILY-2025-03-15</camt:Id>
+      <camt:StmtPgntn><camt:PgNb>1</camt:PgNb><camt:LastPgInd>true</camt:LastPgInd></camt:StmtPgntn><camt:ElctrncSeqNb>88</camt:ElctrncSeqNb>
+      <camt:CreDtTm>2025-03-15T05:30:00+00:00</camt:CreDtTm>
+      <camt:Acct>
+        <camt:Id>
+          <camt:IBAN>US98HMBK09120446200111</camt:IBAN>
+        </camt:Id>
+        <camt:Ccy>THB</camt:Ccy><camt:Ownr>
+          <camt:Nm>FIRST SOUTHEAST BANK HARMONY</camt:Nm>
+        </camt:Ownr>
+        <camt:Svcr>
+          <camt:FinInstnId>
+            <camt:BICFI>HMBKUS44GAR</camt:BICFI>
+          </camt:FinInstnId>
+        </camt:Svcr>
+      </camt:Acct>
+      <camt:Bal>
+        <camt:Tp>
+          <camt:CdOrPrtry>
+            <camt:Cd>CLBD</camt:Cd>
+          </camt:CdOrPrtry>
+        </camt:Tp>
+        <camt:Amt Ccy="USD">2150000.00</camt:Amt>
+        <camt:CdtDbtInd>CRDT</camt:CdtDbtInd>
+        <camt:Dt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:Dt>
+      </camt:Bal>
+      <camt:Ntry><camt:Amt Ccy="USD">250000.00</camt:Amt>
+        <camt:CdtDbtInd>DBIT</camt:CdtDbtInd>
+        <camt:Sts><camt:Cd>BOOK</camt:Cd></camt:Sts><camt:BookgDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:BookgDt>
+        <camt:ValDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:ValDt>
+        <camt:AcctSvcrRef>HMBK-REF-991</camt:AcctSvcrRef>
+        <camt:BkTxCd><camt:Domn><camt:Cd>PMNT</camt:Cd><camt:Fmly><camt:Cd>RCDT</camt:Cd><camt:SubFmlyCd>ESCT</camt:SubFmlyCd></camt:Fmly></camt:Domn></camt:BkTxCd><camt:NtryDtls>
+          <camt:TxDtls><camt:Refs>
+              <camt:EndToEndId>GARLAND-PAYROLL-MAR</camt:EndToEndId>
+              <camt:TxId>HMBKUS44GAR-991</camt:TxId>
+            </camt:Refs>
+            <camt:Amt Ccy="USD">250000.00</camt:Amt><camt:CdtDbtInd>DBIT</camt:CdtDbtInd><camt:RltdPties>
+              <camt:Cdtr>
+                <camt:Pty><camt:Nm>HARMONY PAYROLL SERVICES</camt:Nm>
+              </camt:Pty></camt:Cdtr>
+            </camt:RltdPties>
+            <camt:RmtInf>
+              <camt:Ustrd>Payroll batch March</camt:Ustrd>
+            </camt:RmtInf>
+          </camt:TxDtls></camt:NtryDtls>
+      </camt:Ntry><camt:Ntry><camt:Amt Ccy="USD">125000.00</camt:Amt>
+        <camt:CdtDbtInd>CRDT</camt:CdtDbtInd>
+        <camt:Sts><camt:Cd>BOOK</camt:Cd></camt:Sts><camt:BookgDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:BookgDt>
+        <camt:ValDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:ValDt>
+        <camt:AcctSvcrRef>HMBK-REF-992</camt:AcctSvcrRef>
+        <camt:BkTxCd><camt:Domn><camt:Cd>PMNT</camt:Cd><camt:Fmly><camt:Cd>RCDT</camt:Cd><camt:SubFmlyCd>ESCT</camt:SubFmlyCd></camt:Fmly></camt:Domn></camt:BkTxCd><camt:NtryDtls>
+          <camt:TxDtls><camt:Refs>
+              <camt:EndToEndId>CLIENT-FEE-145</camt:EndToEndId>
+              <camt:TxId>HMBKUS44GAR-992</camt:TxId>
+            </camt:Refs>
+            <camt:Amt Ccy="USD">125000.00</camt:Amt><camt:CdtDbtInd>CRDT</camt:CdtDbtInd><camt:RltdPties>
+              <camt:Dbtr>
+                <camt:Pty><camt:Nm>ACME CONSULTING</camt:Nm>
+              </camt:Pty></camt:Dbtr>
+            </camt:RltdPties>
+            <camt:RmtInf>
+              <camt:Ustrd>Consulting fees</camt:Ustrd>
+            </camt:RmtInf>
+          </camt:TxDtls></camt:NtryDtls>
+      </camt:Ntry><camt:Ntry><camt:Amt Ccy="USD">17500.50</camt:Amt>
+        <camt:CdtDbtInd>DBIT</camt:CdtDbtInd>
+        <camt:Sts><camt:Cd>BOOK</camt:Cd></camt:Sts><camt:BookgDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:BookgDt>
+        <camt:ValDt>
+          <camt:Dt>2025-03-14</camt:Dt>
+        </camt:ValDt>
+        <camt:AcctSvcrRef>HMBK-REF-993</camt:AcctSvcrRef>
+        <camt:BkTxCd><camt:Domn><camt:Cd>PMNT</camt:Cd><camt:Fmly><camt:Cd>RCDT</camt:Cd><camt:SubFmlyCd>ESCT</camt:SubFmlyCd></camt:Fmly></camt:Domn></camt:BkTxCd><camt:NtryDtls>
+          <camt:TxDtls><camt:Refs>
+              <camt:EndToEndId>UTILITY-294</camt:EndToEndId>
+            <camt:TxId>HMBK-TX-422</camt:TxId></camt:Refs>
+            <camt:Amt Ccy="USD">17500.50</camt:Amt><camt:CdtDbtInd>DBIT</camt:CdtDbtInd><camt:RmtInf>
+              <camt:Ustrd>Utility settlement</camt:Ustrd>
+            </camt:RmtInf>
+          </camt:TxDtls></camt:NtryDtls>
+      </camt:Ntry></camt:Stmt></camt:BkToCstmrStmt>
+</camt:Document>

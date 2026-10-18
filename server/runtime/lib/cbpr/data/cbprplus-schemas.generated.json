@@ -1,0 +1,252 @@
+{
+  "schemaProfiles": [
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-admi_024_001_01_NotificationOfCorrespondence_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "05c53d1d28dc667b0ff23026d14b15d9794a7fdc7191afbeac1bd3dcdc08d2e2",
+      "messageId": "admi.024.001.01",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-admi_024_001_01_NotificationOfCorrespondence_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:admi.024.001.01"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_025_001_08_Receipt_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "c1be3bda61a5f9c3a165dace7021c772a7d8d55d5d6e09f98a9071a2a4fa3c59",
+      "messageId": "camt.025.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_025_001_08_Receipt_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.025.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_029_001_09_ResolutionOfInvestigation_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "3dd433e48b451d4d8b1b7f7bd2c28380d8f78714d590ba8d4c3fec7e8a101d39",
+      "messageId": "camt.029.001.09",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_029_001_09_ResolutionOfInvestigation_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.029.001.09"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_052_001_08_BankToCustomerAccountReport_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "185069a788ec8f964e3ee3b2c3d18377974c35bb709c4c8e75e866fe4b3d1d7b",
+      "messageId": "camt.052.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_052_001_08_BankToCustomerAccountReport_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.052.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_053_001_08_BankToCustomerStatement_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "437e32da6e3fadd0b06864e097f9d4970446aa7b4135ad9567bd3efd71cc6423",
+      "messageId": "camt.053.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_053_001_08_BankToCustomerStatement_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.053.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_054_001_08_BankToCustomerDebitCreditNotification_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "6eef3c220fefc3d81484fa67dae8c6e9f709715f87355b8031b67443a37b2cea",
+      "messageId": "camt.054.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_054_001_08_BankToCustomerDebitCreditNotification_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.054.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_055_001_08_CustomerPaymentCancellationRequest_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "94784ef594d3ff394e04c09fb17ab199a3647ddcf67c6ff21963efbdd0942b1f",
+      "messageId": "camt.055.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_055_001_08_CustomerPaymentCancellationRequest_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.055.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_056_001_08_FIToFIPaymentCancellationRequest_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "0202f4f3fce7606f4bcb9b8960b1d3bb03baf72333856eef6fe2bf2d369bbbd5",
+      "messageId": "camt.056.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_056_001_08_FIToFIPaymentCancellationRequest_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.056.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_057_001_06_NotificationToReceive_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "ae7f48574d5faf7acaf5f21355f264b9d3f8e3b75f22cc9fd86f841124a85042",
+      "messageId": "camt.057.001.06",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_057_001_06_NotificationToReceive_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.057.001.06"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_058_001_08_NotificationToReceiveCancellationAdvice_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "31b9146d6fe8c5f746c1e2ebcba2a90795b6a7b4b5095069c465236fd1ee030a",
+      "messageId": "camt.058.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_058_001_08_NotificationToReceiveCancellationAdvice_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.058.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_060_001_05_AccountReportingRequest_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "d012c4d5c88d4b5ebadfe82eced715d56c8c2d1c2afc3c8cb04e6a2156d80911",
+      "messageId": "camt.060.001.05",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_060_001_05_AccountReportingRequest_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.060.001.05"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_105_001_02_ChargesPaymentNotification_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "de57cffd09b3ea1338c55f2a23f3df4de9ff850a67bc2d813f5e64767945e308",
+      "messageId": "camt.105.001.02",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_105_001_02_ChargesPaymentNotification_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.105.001.02"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_105_001_02_ChargesPaymentNotification_MultipleCharges_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "0c917626b8dae2e700849020ee6ca469a0eb7b69692f6c14ce2d80b8d2d89c31",
+      "messageId": "camt.105.001.02",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_105_001_02_ChargesPaymentNotification_MultipleCharges_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.105.001.02"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_106_001_02_ChargesPaymentRequest_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "594875930ed7578804cd9432c404c0a455023a3a32ded355e6d78240034fa905",
+      "messageId": "camt.106.001.02",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_106_001_02_ChargesPaymentRequest_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.106.001.02"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_106_001_02_ChargesPaymentRequest_MultipleCharges_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "eb1979e8e7fb321ca2ff0f4fadab844a32079c8786cbdac2b223e8acc9d95b9e",
+      "messageId": "camt.106.001.02",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_106_001_02_ChargesPaymentRequest_MultipleCharges_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.106.001.02"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_107_001_01_ChequePresentmentNotification_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "2c64f6b68616ffd8f58cc482ac1d621ad1d9bec912504131ecb333b20b41f539",
+      "messageId": "camt.107.001.01",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_107_001_01_ChequePresentmentNotification_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.107.001.01"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_108_001_01_ChequeCancellationOrStopRequest_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "ed6721146ee1548f87e7f7dbee1026c7ee72d219a32b8cfd66384cba60b0f6a7",
+      "messageId": "camt.108.001.01",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_108_001_01_ChequeCancellationOrStopRequest_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.108.001.01"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_109_001_01_ChequeCancellationOrStopReport_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "21b1eb357c8ad79b44f086b527289a994da4b6e504718cf9977004914cc72a01",
+      "messageId": "camt.109.001.01",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-camt_109_001_01_ChequeCancellationOrStopReport_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:camt.109.001.01"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_002_001_10_FIToFIPaymentStatusReport_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "d42db5bf11f603a88eda0d46a97aa11a858664148d68c51da6f44404f9f430af",
+      "messageId": "pacs.002.001.10",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_002_001_10_FIToFIPaymentStatusReport_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.002.001.10"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_003_001_08_FIToFICustomerDirectDebit_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "3d113001601f3da6774a3b5c46fcf3987c69b18deedb08e63e3578f0483b73e5",
+      "messageId": "pacs.003.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_003_001_08_FIToFICustomerDirectDebit_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.003.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_004_001_09_PaymentReturn_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "72b4f20c8f1d5d487e589b6a76ce491399db8ba33edfac3dcbc23948fbf0a22c",
+      "messageId": "pacs.004.001.09",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_004_001_09_PaymentReturn_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.004.001.09"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_008_001_08_FIToFICustomerCreditTransfer_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "9c342a9cc34cbf9ea166732c7c669253238fe2bda8a2ebbe7f479f6edd29bf46",
+      "messageId": "pacs.008.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_008_001_08_FIToFICustomerCreditTransfer_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_008_001_08_STP_FIToFICustomerCreditTransfer_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "7ed33e2eb81fff893a9da375e85594d43eb54dd19b7c7e46321df0f7f4e61fe0",
+      "messageId": "pacs.008.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_008_001_08_STP_FIToFICustomerCreditTransfer_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_ADV_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "b4e761e63e297d3294993f00d053d36fed3a854f6e5e8dd8b8ac89a8091bdafc",
+      "messageId": "pacs.009.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_ADV_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.009.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_COV_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "84af4a0649afc0c8d596a6a659b5b31b4a96af86ea4efa633d078ca2a37af10c",
+      "messageId": "pacs.009.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_COV_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.009.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "f2a4085b9abb0f1fa769a0f347630e52223343bb1a32902e33460fd0d7070764",
+      "messageId": "pacs.009.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_009_001_08_FinancialInstitutionCreditTransfer_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.009.001.08"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_010_001_03_Interbank_Direct_Debit_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "5b3ead6359f52ca9dc890d543c4d181c44b64ce7458b8de18310911c20544361",
+      "messageId": "pacs.010.001.03",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_010_001_03_Interbank_Direct_Debit_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.010.001.03"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_010_001_03_Interbank_Direct_Debit-_Margin_Collection_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "45a7b5a20f6e2d449a3528d004bd15d2f17a2ba79bec44b0aafb76d49f49a5d0",
+      "messageId": "pacs.010.001.03",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pacs_010_001_03_Interbank_Direct_Debit-_Margin_Collection_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pacs.010.001.03"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_001_001_09_CustomerCreditTransferInitiation_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "94c344d441d3847c9c6d34a741a55bd9bafc0a6539d952f4574847e61abbe63d",
+      "messageId": "pain.001.001.09",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_001_001_09_CustomerCreditTransferInitiation_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.09"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_002_001_10_CustomerPaymentStatusReport_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "b1e07ae908f94b15eb1c8c2e93a72253d83768c989487c022e803393107d0c2d",
+      "messageId": "pain.002.001.10",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_002_001_10_CustomerPaymentStatusReport_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pain.002.001.10"
+    },
+    {
+      "entryName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_008_001_08_CustomerDirectDebitInitiation_20251202_0608_iso15enriched.xsd",
+      "entrySha256": "a3bc051c5a96af46cb9078eda3494832f08c3fc01d3331bb551dd7c8b8b4ed91",
+      "messageId": "pain.008.001.08",
+      "profileName": "CBPRPlus_SR2025_(Combined)_CBPRPlus-pain_008_001_08_CustomerDirectDebitInitiation_20251202_0608_iso15enriched",
+      "rootElement": "Document",
+      "targetNamespace": "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+    }
+  ]
+}

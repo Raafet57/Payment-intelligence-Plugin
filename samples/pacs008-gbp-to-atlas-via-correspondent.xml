@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08">
+  <FIToFICstmrCdtTrf>
+    <GrpHdr>
+      <MsgId>SYNTH-SSI-0001</MsgId>
+      <CreDtTm>2026-10-16T09:00:00+00:00</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf>
+    </GrpHdr>
+    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>SYNTH-INSTR-0001</InstrId>
+        <EndToEndId>SYNTH-E2E-0001</EndToEndId>
+        <UETR>3f2c1d4e-5a6b-4c7d-8e9f-0a1b2c3d4e5f</UETR>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="GBP">48250.00</IntrBkSttlmAmt>
+      <IntrBkSttlmDt>2026-10-16</IntrBkSttlmDt>
+      <ChrgBr>SHAR</ChrgBr>
+      <IntrmyAgt1><FinInstnId><BICFI>HOLDGB2LXXX</BICFI></FinInstnId></IntrmyAgt1>
+      <Dbtr><Nm>Meridian Trading Ltd</Nm></Dbtr>
+      <DbtrAgt><FinInstnId><BICFI>ORIOUS33XXX</BICFI></FinInstnId></DbtrAgt>
+      <CdtrAgt><FinInstnId><BICFI>ATLAGB2L</BICFI></FinInstnId></CdtrAgt>
+      <CdtrAgtAcct><Id><Othr><Id>40019002</Id></Othr></Id></CdtrAgtAcct>
+      <Cdtr><Nm>Okonkwo Logistics GmbH</Nm></Cdtr>
+      <CdtrAcct><Id><IBAN>GB29NWBK60161331926819</IBAN></Id></CdtrAcct>
+    </CdtTrfTxInf>
+  </FIToFICstmrCdtTrf>
+</Document>

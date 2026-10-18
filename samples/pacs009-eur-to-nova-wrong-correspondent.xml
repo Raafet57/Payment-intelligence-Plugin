@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.009.001.08">
+  <FICdtTrf>
+    <GrpHdr>
+      <MsgId>SYNTH-SSI-0002</MsgId>
+      <CreDtTm>2026-10-16T10:00:00+00:00</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf>
+    </GrpHdr>
+    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>SYNTH-INSTR-0002</InstrId>
+        <EndToEndId>SYNTH-E2E-0002</EndToEndId>
+        <UETR>9a8b7c6d-5e4f-4a3b-9c2d-1e0f9a8b7c6d</UETR>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="EUR">2500000.00</IntrBkSttlmAmt>
+      <IntrBkSttlmDt>2026-10-16</IntrBkSttlmDt>
+      <Dbtr><FinInstnId><BICFI>ORIOUS33XXX</BICFI></FinInstnId></Dbtr>
+      <DbtrAgt><FinInstnId><BICFI>ORIOUS33XXX</BICFI></FinInstnId></DbtrAgt>
+      <CdtrAgt><FinInstnId><BICFI>HOLDDEFFXXX</BICFI></FinInstnId></CdtrAgt>
+      <Cdtr><FinInstnId><BICFI>NOVAFRPPXXX</BICFI></FinInstnId></Cdtr>
+      <CdtrAcct><Id><Othr><Id>DE-ACC-77009003</Id></Othr></Id></CdtrAcct>
+    </CdtTrfTxInf>
+  </FICdtTrf>
+</Document>

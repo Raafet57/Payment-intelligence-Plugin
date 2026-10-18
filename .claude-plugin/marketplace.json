@@ -1,0 +1,18 @@
+{
+  "name": "payment-intelligence",
+  "owner": {
+    "name": "Raafet Choukri",
+    "url": "https://github.com/Raafet57"
+  },
+  "metadata": {
+    "description": "Offline ISO 20022 payment tools for AI assistants: explain pacs/camt messages in plain language, scrub customer data before sharing, check CBPR+ readiness, validate SSI files and check payments against your own SSIs, validate and build IBANs, check BIC syntax, and triage payment returns. Nothing leaves your machine."
+  },
+  "plugins": [
+    {
+      "name": "payment-intelligence",
+      "source": "./",
+      "description": "Offline ISO 20022 payment tools for AI assistants: explain pacs/camt messages in plain language, scrub customer data before sharing, check CBPR+ readiness, validate SSI files and check payments against your own SSIs, validate and build IBANs, check BIC syntax, and triage payment returns. Nothing leaves your machine.",
+      "category": "finance"
+    }
+  ]
+}

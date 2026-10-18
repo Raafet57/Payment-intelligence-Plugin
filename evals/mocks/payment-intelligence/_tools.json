@@ -1,0 +1,359 @@
+{
+  "tools": [
+    {
+      "name": "validate_iban",
+      "title": "Validate IBAN",
+      "description": "Validate an IBAN offline against the bundled SWIFT IBAN Registry snapshot: country, length, BBAN structure and MOD-97 check digits. Does not confirm the account exists.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "iban": {
+            "type": "string",
+            "description": "IBAN, with or without spaces."
+          }
+        },
+        "required": [
+          "iban"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Validate IBAN",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "build_iban",
+      "title": "Build IBAN",
+      "description": "Build an IBAN from its BBAN fields and compute the MOD-97 check digits. Call without `fields` first to get the country's field template.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "country_code": {
+            "type": "string",
+            "description": "ISO 3166 alpha-2 country code, e.g. DE."
+          },
+          "fields": {
+            "type": "object",
+            "description": "Map of template field id to value, e.g. { bank: '37040044', account: '0532013000' }.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "country_code"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Build IBAN",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "check_bic",
+      "title": "Check BIC syntax",
+      "description": "ISO 9362 BIC syntax and ISO 3166 country-code checks. No bank directory is bundled, so it cannot confirm a BIC exists or is reachable; never use it for routing or compliance decisions.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "bic": {
+            "type": "string",
+            "description": "8- or 11-character BIC."
+          }
+        },
+        "required": [
+          "bic"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Check BIC syntax",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "explain_payment_message",
+      "title": "Explain payment message",
+      "description": "Explain an ISO 20022 payment message. pacs.008, pacs.009 and camt.053 get a plain-language narrative; pacs.002, pacs.004, camt.052 and camt.054 get a structured field projection. All get an operator summary and quick insights.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "xml": {
+            "type": "string",
+            "description": "The ISO 20022 XML message, inline."
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to a local XML file. Prefer this for real data so it never enters the chat."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Explain payment message",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "scrub_payment_message",
+      "title": "Scrub payment message",
+      "description": "Replace names, IBANs, account ids, UETRs and references in a pacs/camt message with consistent pseudonyms. With `path` + `output_path`, writes the scrubbed copy to disk and returns only masked statistics, so the original data never enters the conversation. Never overwrites an existing file.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "xml": {
+            "type": "string",
+            "description": "The ISO 20022 XML message, inline."
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to a local XML file. Prefer this for real data so it never enters the chat."
+          },
+          "output_path": {
+            "type": "string",
+            "description": "Where to write the scrubbed XML. Must not exist yet and must differ from `path`."
+          },
+          "options": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "consistency": {
+                "type": "boolean",
+                "description": "Same original, same pseudonym (default true)."
+              },
+              "preserveRemittance": {
+                "type": "boolean",
+                "description": "Keep remittance text (default false)."
+              },
+              "shiftDates": {
+                "type": "boolean",
+                "description": "Shift dates by `dateOffsetDays`."
+              },
+              "dateOffsetDays": {
+                "type": "integer"
+              },
+              "maskFiOtherIds": {
+                "type": "boolean",
+                "description": "Also mask FI proprietary ids."
+              }
+            }
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Scrub payment message",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "check_cbpr_readiness",
+      "title": "Check CBPR+ readiness",
+      "description": "Local CBPR+ readiness hints: AppHdr/Document namespaces, schema-profile coverage, UETR, BIC and IBAN syntax. Not a certified validator.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "xml": {
+            "type": "string",
+            "description": "The ISO 20022 XML message, inline."
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to a local XML file. Prefer this for real data so it never enters the chat."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Check CBPR+ readiness",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "analyze_payment_lifecycle",
+      "title": "Analyze payment lifecycle",
+      "description": "Group a set of ACK/NACK, pacs and camt files by shared identifiers (UETR, EndToEndId, TxId) into threads with a timeline and warnings. Works only on the files given.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "paths": {
+            "type": "array",
+            "description": "Local file paths.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "documents": {
+            "type": "array",
+            "description": "Inline documents.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file_name": {
+                  "type": "string"
+                },
+                "xml": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "file_name",
+                "xml"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Analyze payment lifecycle",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "validate_ssi_file",
+      "title": "Validate SSI file",
+      "description": "Validate a standing settlement instruction (SSI) file: a SWIFTRef SSI Plus V3 extract or a CSV/TSV export. Checks BIC, ISO country, ISO 4217 currency and SSI asset-category formats, required fields, preferred flags, lifecycle dates, staleness, and conflicts (two preferred correspondents, overlapping active instructions). Rule ids match SSI Control Tower. Accounts are masked in the output.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ssi_path": {
+            "type": "string",
+            "description": "Path to the local SSI file. Prefer this: the file never enters the chat."
+          },
+          "ssi_content": {
+            "type": "string",
+            "description": "The SSI file content, inline (small files only)."
+          },
+          "as_of": {
+            "type": "string",
+            "description": "Date to judge active and stale instructions, YYYY-MM-DD. Defaults to today."
+          },
+          "max_findings": {
+            "type": "integer",
+            "description": "Maximum findings to list (default 50, max 500)."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Validate SSI file",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "check_payment_against_ssi",
+      "title": "Check payment against SSI file",
+      "description": "Check that a payment pays the beneficiary institution through the correspondent and account in the user's own SSI file. Reads the route from a pacs.008 (creditor agent, last intermediary, CdtrAgtAcct) or pacs.009 (creditor, creditor agent, CdtrAcct), or from explicit fields, then looks up owner BIC + currency + asset category and compares with the preferred SSI effective on the value date. Returns MATCH, ACCOUNT_MISMATCH, AGENT_MISMATCH, NOT_PREFERRED, AMBIGUOUS_SSI, NO_EFFECTIVE_SSI or NO_SSI per transaction. Accounts are masked.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ssi_path": {
+            "type": "string",
+            "description": "Path to the user's SSI file (SWIFTRef SSI Plus V3, CSV or TSV)."
+          },
+          "ssi_content": {
+            "type": "string",
+            "description": "The SSI file content, inline (small files only)."
+          },
+          "xml": {
+            "type": "string",
+            "description": "The ISO 20022 XML message, inline."
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to a local XML file. Prefer this for real data so it never enters the chat."
+          },
+          "owner_bic": {
+            "type": "string",
+            "description": "Beneficiary institution BIC (the SSI owner). Overrides the message."
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency. Overrides the message."
+          },
+          "asset_category": {
+            "type": "string",
+            "description": "SSI asset category such as COPA, CASH, FOEX, SECU. Overrides the default for the message type."
+          },
+          "account_holder_bic": {
+            "type": "string",
+            "description": "Correspondent (account-holding institution) BIC used by the payment. Overrides the message."
+          },
+          "account": {
+            "type": "string",
+            "description": "Account at the correspondent used by the payment. Overrides the message."
+          },
+          "value_date": {
+            "type": "string",
+            "description": "Value date, YYYY-MM-DD. Defaults to the message settlement date, else today."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Check payment against SSI file",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "decode_reason_code",
+      "title": "Decode status or reason code",
+      "description": "Explain an ISO 20022 status or reason code such as RJCT, AC01 or MD07. Omit `code` to list the curated set.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Status or reason code."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Decode status or reason code",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}

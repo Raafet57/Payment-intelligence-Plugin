@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.10">
+  <FIToFIPmtStsRpt>
+    <GrpHdr>
+      <MsgId>REJECT-MD07-20250321</MsgId>
+      <CreDtTm>2025-03-21T11:11:00+00:00</CreDtTm>
+    </GrpHdr>
+    <TxInfAndSts>
+      <OrgnlGrpInf><OrgnlMsgId>ASIA-URGENT-001</OrgnlMsgId><OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId></OrgnlGrpInf><OrgnlInstrId>TH-PRIO-001</OrgnlInstrId>
+      <OrgnlEndToEndId>INV-TH-778</OrgnlEndToEndId>
+      <OrgnlUETR>a3f1e567-89ab-4cde-b012-3456789abcde</OrgnlUETR><TxSts>RJCT</TxSts>
+      <StsRsnInf>
+        <Rsn><Cd>MD07</Cd></Rsn>
+        <AddtlInf>Beneficiary refused duplicate credit</AddtlInf></StsRsnInf>
+    <InstgAgt><FinInstnId><BICFI>HMBKTH2BXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>HMBKUS33XXX</BICFI></FinInstnId></InstdAgt></TxInfAndSts>
+  </FIToFIPmtStsRpt>
+</Document>

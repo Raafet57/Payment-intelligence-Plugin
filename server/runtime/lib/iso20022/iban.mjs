@@ -1,0 +1,198 @@
+// Generated from src/lib/iso20022/iban.ts by plugins/payment-intelligence/server/build.mjs.
+// Edit the source, not this file.
+/**
+ * IBAN total lengths by country code. Source: public IBAN registry table from iban.com
+ * structure page, captured during Stage B review. Countries not registered for IBAN (for
+ * example US) intentionally fall back to a non-IBAN account pseudonym.
+ */
+export const IBAN_LENGTHS = Object.freeze({
+    AD: 24,
+    AE: 23,
+    AL: 28,
+    AO: 25,
+    AT: 20,
+    AZ: 28,
+    BA: 20,
+    BE: 16,
+    BF: 28,
+    BG: 22,
+    BH: 22,
+    BI: 27,
+    BJ: 28,
+    BR: 29,
+    BY: 28,
+    CF: 27,
+    CG: 27,
+    CH: 21,
+    CI: 28,
+    CM: 27,
+    CR: 22,
+    CV: 25,
+    CY: 28,
+    CZ: 24,
+    DE: 22,
+    DJ: 27,
+    DK: 18,
+    DO: 28,
+    DZ: 24,
+    EE: 20,
+    EG: 29,
+    ES: 24,
+    FI: 18,
+    FK: 18,
+    FO: 18,
+    FR: 27,
+    GA: 27,
+    GB: 22,
+    GE: 22,
+    GI: 23,
+    GL: 18,
+    GQ: 27,
+    GR: 27,
+    GT: 28,
+    GW: 25,
+    HN: 28,
+    HR: 21,
+    HU: 28,
+    IE: 22,
+    IL: 23,
+    IQ: 23,
+    IR: 26,
+    IS: 26,
+    IT: 27,
+    JO: 30,
+    KM: 27,
+    KW: 30,
+    KZ: 20,
+    LB: 28,
+    LC: 32,
+    LI: 21,
+    LT: 20,
+    LU: 20,
+    LV: 21,
+    LY: 25,
+    MA: 28,
+    MC: 27,
+    MD: 24,
+    ME: 22,
+    MG: 27,
+    MK: 19,
+    ML: 28,
+    MN: 20,
+    MR: 27,
+    MT: 31,
+    MU: 30,
+    MZ: 25,
+    NE: 28,
+    NI: 28,
+    NL: 18,
+    NO: 15,
+    OM: 23,
+    PK: 24,
+    PL: 28,
+    PS: 29,
+    PT: 25,
+    QA: 29,
+    RO: 24,
+    RS: 22,
+    RU: 33,
+    SA: 24,
+    SC: 31,
+    SD: 18,
+    SE: 24,
+    SI: 19,
+    SK: 24,
+    SM: 27,
+    SN: 28,
+    SO: 23,
+    ST: 25,
+    SV: 28,
+    TD: 27,
+    TG: 28,
+    TL: 23,
+    TN: 24,
+    TR: 26,
+    UA: 29,
+    VA: 22,
+    VG: 24,
+    XK: 20,
+    YE: 30,
+});
+const LETTER_VALUES = (() => {
+    const out = {};
+    for (let i = 0; i < 26; i++) {
+        out[String.fromCharCode(65 + i)] = String(10 + i);
+    }
+    return out;
+})();
+/** Convert IBAN letters/digits to a numeric string per ISO 13616. */
+export function toIbanNumeric(value) {
+    let out = "";
+    for (const ch of value) {
+        if (ch >= "0" && ch <= "9") {
+            out += ch;
+        }
+        else {
+            const upper = ch.toUpperCase();
+            const v = LETTER_VALUES[upper];
+            if (v === undefined) {
+                // Non alphanumeric character · caller should have validated; emit nothing safely.
+                continue;
+            }
+            out += v;
+        }
+    }
+    return out;
+}
+/** Compute mod 97 of a numeric string without BigInt overflow concerns. */
+export function mod97(numeric) {
+    let remainder = 0;
+    for (const ch of numeric) {
+        remainder = (remainder * 10 + Number(ch)) % 97;
+    }
+    return remainder;
+}
+/** Return true if `iban` has a valid mod-97 check digit. */
+export function isValidIban(iban) {
+    const cleaned = iban.replace(/\s+/g, "").toUpperCase();
+    if (cleaned.length < 4)
+        return false;
+    if (!/^[A-Z]{2}[0-9]{2}[A-Z0-9]+$/.test(cleaned))
+        return false;
+    const expectedLength = IBAN_LENGTHS[cleaned.slice(0, 2)];
+    if (expectedLength === undefined || cleaned.length !== expectedLength)
+        return false;
+    const rearranged = cleaned.slice(4) + cleaned.slice(0, 4);
+    const numeric = toIbanNumeric(rearranged);
+    return mod97(numeric) === 1;
+}
+/**
+ * Build an IBAN-shaped pseudonym for the given country and counter. If the country has
+ * a registered length we generate digits and append a valid mod-97 check digit so the
+ * output passes IBAN validation. Otherwise we return a fallback shape (`XX00...`).
+ */
+export function buildIbanPseudonym(country, counter) {
+    const cc = (country ?? "").toUpperCase();
+    const length = cc.length === 2 ? IBAN_LENGTHS[cc] : undefined;
+    if (length === undefined) {
+        return buildNonIbanPseudonym(counter);
+    }
+    // Body = digits derived from counter, padded to length - 4 chars.
+    const bodyLength = length - 4;
+    const seed = String(counter * 9301 + 49297)
+        .padStart(bodyLength, "0")
+        .slice(-bodyLength);
+    // Compose check digits so that mod97 of "<body><CC>00" rearranged validates to 1.
+    // Per ISO 13616: rearranged = body + countryCode + checkDigits, treat as number, mod 97 == 1.
+    const numericBodyAndCountry = toIbanNumeric(`${seed}${cc}00`);
+    const remainder = mod97(numericBodyAndCountry);
+    const check = String(98 - remainder).padStart(2, "0");
+    return `${cc}${check}${seed}`;
+}
+/** Fallback for US/non-IBAN countries: ISO-shaped but not a valid IBAN. */
+export function buildNonIbanPseudonym(counter) {
+    const digits = String(counter * 7919)
+        .padStart(10, "0")
+        .slice(-10);
+    return `ACCT-${digits}`;
+}
