@@ -10,7 +10,11 @@ Nothing. The plugin has no account, no analytics, no telemetry and no crash repo
 
 ## Network access
 
-None. The bundled MCP server (`server/runtime/`) makes no network requests. Its reference data (the IBAN registry snapshot, the ISO country list used for BIC checks, the CBPR+ schema manifest and the reason-code list) is bundled inside the plugin.
+None. The bundled MCP server (`server/runtime/`) makes no network requests. Its built-in public format data (the IBAN registry snapshot, the ISO country list used for BIC checks, the CBPR+ schema manifest and the reason-code list) is bundled inside the plugin.
+
+## Reference data
+
+The plugin provides no licensed reference data (no SwiftRef, BIC Directory or SSI data). It reads reference files you already hold, such as your SSI file, only when you point a tool at them, and never copies or sends them anywhere.
 
 ## Files
 

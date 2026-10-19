@@ -5,7 +5,7 @@ description: Validate standing settlement instructions (SSIs) and check payments
 
 # Check SSIs
 
-Both tools read the user's SSI file locally. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
+The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI file, read locally. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
 
 ## Validate an SSI file
 
