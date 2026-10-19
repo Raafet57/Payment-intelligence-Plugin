@@ -4,7 +4,7 @@ Offline ISO 20022 tools for payment operations, investigations and migration tea
 
 **Nothing leaves your machine.** The plugin runs a local MCP server over stdio. It makes no network calls, sends no telemetry and has no account. It only reads files you name, and writes only the scrubbed copy you ask for.
 
-**We don't provide reference data. The plugin works on your own.** No SwiftRef, BIC Directory or SSI data is shipped, sold or downloaded. Your institution already licenses that data; the tools read the files you point them at, on your machine: your own SSI file (SWIFTRef SSI Plus or a CSV export) and your own payment messages. The only data built in is public format rules: the SWIFT IBAN Registry structures, ISO country and currency codes, and a short list of ISO status and reason codes.
+**We don't provide reference data. The plugin works on your own.** No SwiftRef, BIC Directory or SSI data is shipped, sold or downloaded. Your institution already licenses that data; the tools read the files you point them at, on your machine: your own SSI file (SWIFTRef SSI Plus or a CSV export) and your own payment messages. It is provider-agnostic: SSI files can come from SWIFTRef (SSI Plus) or as a CSV/TSV export from any other provider or in-house system. Common column names are recognised automatically, and any column it cannot map is listed in the result, so there is no lock-in to one data vendor. The only data built in is public format rules: the SWIFT IBAN Registry structures, ISO country and currency codes, and a short list of ISO status and reason codes.
 
 ## What you can ask
 

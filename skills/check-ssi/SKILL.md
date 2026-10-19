@@ -1,11 +1,11 @@
 ---
 name: check-ssi
-description: Validate standing settlement instructions (SSIs) and check payments against the user's own SSI file. Use when the user asks to validate, clean up or review an SSI file (SWIFTRef SSI Plus, CSV or Excel export), or asks whether a payment, pacs.008 or pacs.009 uses the right correspondent, account or settlement route for a beneficiary bank.
+description: Validate standing settlement instructions (SSIs) and check payments against the user's own SSI file. Use when the user asks to validate, clean up or review an SSI file (SWIFTRef SSI Plus, or a CSV/TSV export from any provider or in-house system; Excel sheets must be saved as CSV first), or asks whether a payment, pacs.008 or pacs.009 uses the right correspondent, account or settlement route for a beneficiary bank.
 ---
 
 # Check SSIs
 
-The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI file, read locally. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
+The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI file, read locally. It is provider-agnostic: SWIFTRef SSI Plus files and CSV/TSV exports from any provider or in-house system both work. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
 
 ## Validate an SSI file
 

@@ -12,18 +12,36 @@
 const ALIASES = {
     recordKey: ["record key", "ssi reference", "ssi id", "ssi key", "reference"],
     modificationFlag: ["modification flag"],
-    ownerBic: ["bic owner", "owner bic", "account owner bic", "entity bic", "bic"],
-    ownerName: ["institution name owner", "owner name", "entity name", "legal entity", "fund name"],
+    ownerBic: [
+        "bic owner",
+        "owner bic",
+        "account owner bic",
+        "counterparty bic",
+        "beneficiary bank bic",
+        "entity bic",
+        "bic",
+    ],
+    ownerName: [
+        "institution name owner",
+        "owner name",
+        "counterparty name",
+        "entity name",
+        "legal entity",
+        "fund name",
+    ],
     ownerCountry: ["iso country code owner", "owner country", "owner country code", "jurisdiction"],
     ownerId: ["lei", "legal entity id", "fund code", "account owner id"],
     market: ["market", "settlement market"],
-    currency: ["iso currency code", "currency", "currency code", "ccy"],
+    currency: ["iso currency code", "currency", "currency code", "settlement currency", "ccy"],
     assetCategory: ["asset category", "asset class", "asset type"],
     accountHolderBic: [
         "bic account holding institution",
         "account holder bic",
         "account holding institution bic",
         "correspondent bic",
+        "cash correspondent bic",
+        "nostro agent bic",
+        "settlement agent bic",
         "local agent bic",
         "global custodian bic",
     ],
@@ -41,6 +59,7 @@ const ALIASES = {
     account: [
         "account nbr with account holding institution",
         "account number",
+        "account no",
         "account",
         "cash account",
         "securities account",
@@ -50,7 +69,7 @@ const ALIASES = {
     updateDate: ["update date", "last updated"],
     trafficFlag: ["traffic flag"],
     trafficDate: ["traffic date"],
-    startDate: ["start date", "effective from", "valid from"],
+    startDate: ["start date", "effective from", "effective date", "valid from"],
     stopDate: ["stop date", "effective to", "valid to"],
     status: ["status"],
     lastConfirmed: ["last confirmed", "last confirmed at", "confirmed on"],
@@ -64,6 +83,11 @@ const SSIPLUS_V3_MARKERS = [
 export class SsiFileError extends Error {
 }
 export function parseSsiFile(text) {
+    // .xlsx is a zip ("PK"); legacy .xls decodes to a replacement character and NUL bytes.
+    if (text.startsWith("PK\u0003\u0004") ||
+        (text.charCodeAt(0) === 0xfffd && text.includes("\u0000"))) {
+        throw new SsiFileError("This looks like an Excel workbook. Save the sheet as CSV (or tab-delimited text) and point the tool at that file.");
+    }
     const body = text.replace(/^\uFEFF/, "");
     const firstLine = body.split(/\r?\n/, 1)[0] ?? "";
     if (!firstLine.trim())
