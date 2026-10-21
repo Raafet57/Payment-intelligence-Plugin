@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-10-21)
 
 - Offline MCP tools (explain, scrub, CBPR+ readiness, lifecycle, reason codes, IBAN validate and build, BIC check) and skills (explain a message, scrub before sharing, triage an exception, check identifiers).
 - Readable, dependency-free runtime: a small hand-written MCP server plus per-file JavaScript generated from the browser suite's sources, with a vendored `@xmldom/xmldom` 0.9.12.
