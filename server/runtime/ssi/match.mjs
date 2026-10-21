@@ -168,7 +168,16 @@ export function checkRoute(records, route, today) {
         .slice(0, 5)
         .map(safeRecord);
     if (!expected) {
-        return result("AMBIGUOUS_SSI", `${effective.length} effective ${currency} ${asset} SSIs exist for ${owner} and none is marked preferred.`, { candidates: others });
+        // Common in SWIFTRef data, where few SSIs carry a preferred flag: say whether the
+        // payment's correspondent is at least one of the effective instructions.
+        const used = actual.account_holder_bic ? normaliseBic(actual.account_holder_bic) : "";
+        const listed = used && effective.some((r) => sameBic(r.accountHolderBic, used));
+        const routeNote = !used
+            ? ""
+            : listed
+                ? ` The payment's correspondent ${used} is one of them, so the route is valid but not confirmed as preferred.`
+                : ` The payment's correspondent ${used} is not one of them.`;
+        return result("AMBIGUOUS_SSI", `${effective.length} effective ${currency} ${asset} SSIs exist for ${owner} and none is marked preferred.${routeNote}`, { candidates: others, ...(used ? { payment_correspondent_listed: listed } : {}) });
     }
     const ownAccountAtOwner = sameBic(expected.accountHolderBic, owner) || !expected.accountHolderBic.trim();
     const holderMatches = actual.account_holder_bic

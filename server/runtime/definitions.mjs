@@ -5,8 +5,14 @@
  * tool the server exposes. Schemas use a small JSON Schema subset that
  * `validateArgs` enforces before a handler runs.
  */
-import { analyzePaymentLifecycle, buildIbanTool, checkBic, checkCbpr, checkPaymentAgainstSsi, decodeReasonCodeTool, explainPaymentMessage, scrubPaymentMessage, ToolInputError, validateIban, validateSsiFile, } from "./tools.mjs";
+import { analyzePaymentLifecycle, buildIbanTool, checkBic, checkCbpr, checkPaymentAgainstSsi, decodeReasonCodeTool, explainPaymentMessage, lookupReferenceData, scrubPaymentMessage, ToolInputError, validateIban, validateSsiFile, } from "./tools.mjs";
 const str = (description) => ({ type: "string", description });
+const columnMap = (description) => ({
+    type: "object",
+    description,
+    additionalProperties: { type: "string" },
+});
+const SSI_COLUMN_MAP_HELP = 'For an export whose headers are not recognised (any provider, for example LexisNexis or an in-house system): map SSI fields to header names, for example {"ownerBic": "Bank SWIFT", "accountHolderBic": "Nostro Agent", "currency": "Ccy"}. Fields: recordKey, ownerBic, ownerName, ownerCountry, ownerId, market, currency, assetCategory, accountHolderBic, accountHolderName, accountHolderCountry, account, preferredFlag, holderType, startDate, stopDate, status, lastConfirmed.';
 const xmlSource = {
     xml: str("The ISO 20022 XML message, inline."),
     path: str("Path to a local XML file. Prefer this for real data so it never enters the chat."),
@@ -40,7 +46,21 @@ export const TOOLS = [
             additionalProperties: { type: "string" },
         },
     }, ["country_code"], buildIbanTool),
-    tool("check_bic", "Check BIC syntax", "ISO 9362 BIC syntax and ISO 3166 country-code checks. No bank directory is bundled, so it cannot confirm a BIC exists or is reachable; never use it for routing or compliance decisions.", { bic: str("8- or 11-character BIC.") }, ["bic"], checkBic),
+    tool("check_bic", "Check BIC syntax", "ISO 9362 BIC syntax and ISO 3166 country-code checks. No bank directory is bundled. With `reference_path` (or the PAYMENT_INTELLIGENCE_REFERENCE_PATH setting), also looks the BIC up in the user's own BIC Directory, Payments Directory, BIC Plus or other provider export: name, location, current or expired, successor BIC, and service participation. A directory record does not prove reachability for a specific payment; never use it alone for routing or compliance decisions.", {
+        bic: str("8- or 11-character BIC."),
+        reference_path: str("Optional: the user's reference data, read locally. An unzipped SWIFTRef BIC Directory or Payments Directory folder, one of its files, a legacy SWIFTRef product file (BIC Plus, Bank Directory Plus, ...), or a CSV/TSV export from any provider."),
+        as_of: str("Date for current or expired, YYYY-MM-DD. Defaults to today."),
+    }, ["bic"], checkBic),
+    tool("lookup_reference_data", "Look up identifiers in your reference data", "Look up BICs (BIC8 or BIC11), national clearing codes (sort codes, ABA, IFSC, CNAPS, ...) and LEIs in the user's own reference files, read locally: SWIFTRef BIC Directory and Payments Directory folders (IDENTIFIERS, including historical, PARTICIPANTS and RELATIONSHIPS files; layouts come from the STRUCTURES file), legacy SWIFTRef products (BIC Plus, BIC Directory 2018, Bank Directory Plus, IBAN Plus, SEPA routing, Reach Plus, gpi), or a CSV/TSV export from any provider or in-house system. Returns per identifier: directory records (name, town, country, current or expired, successor), national IDs linked to a BIC, service participation, and SSI relationship counts with masked accounts. Only matching records are returned. No reference data ships with the plugin.", {
+        ids: {
+            type: "array",
+            items: { type: "string" },
+            description: "Identifiers to look up, up to 50 per call.",
+        },
+        path: str("The reference data: a folder (for example an unzipped SWIFTRef download) or one file. Defaults to the PAYMENT_INTELLIGENCE_REFERENCE_PATH setting."),
+        as_of: str("Date for current or expired, YYYY-MM-DD. Defaults to today."),
+        column_map: columnMap('For a CSV/TSV whose headers are not recognised: map fields to header names, for example {"id": "Swift Code", "name": "Bank"}. Fields: id, idType, name, town, country, status, modification, start, stop, successor, linkedBic, service, participant, reach.'),
+    }, ["ids"], lookupReferenceData),
     tool("explain_payment_message", "Explain payment message", "Explain an ISO 20022 payment message. pacs.008, pacs.009 and camt.053 get a plain-language narrative; pacs.002, pacs.004, camt.052 and camt.054 get a structured field projection. All get an operator summary and quick insights.", xmlSource, [], explainPaymentMessage),
     tool("scrub_payment_message", "Scrub payment message", "Replace names, IBANs, account ids, UETRs and references in a pacs/camt message with consistent pseudonyms. With `path` + `output_path`, writes the scrubbed copy to disk and returns only masked statistics, so the original data never enters the conversation. Never overwrites an existing file.", {
         ...xmlSource,
@@ -78,8 +98,9 @@ export const TOOLS = [
         },
     }, [], analyzePaymentLifecycle),
     tool("validate_ssi_file", "Validate SSI file", "Validate a standing settlement instruction (SSI) file: a SWIFTRef SSI Plus V3 extract or a CSV/TSV export. Checks BIC, ISO country, ISO 4217 currency and SSI asset-category formats, required fields, preferred flags, lifecycle dates, staleness, and conflicts (two preferred correspondents, overlapping active instructions). Rule ids match SSI Control Tower. Accounts are masked in the output.", {
-        ssi_path: str("Path to the local SSI file. Prefer this: the file never enters the chat."),
+        ssi_path: str("Path to the local SSI file: SWIFTRef SSI Plus, a SWIFTRef Payments Directory RELATIONSHIPS file, or a CSV/TSV from any provider. Prefer this: the file never enters the chat."),
         ssi_content: str("The SSI file content, inline (small files only)."),
+        column_map: columnMap(SSI_COLUMN_MAP_HELP),
         as_of: str("Date to judge active and stale instructions, YYYY-MM-DD. Defaults to today."),
         max_findings: {
             type: "integer",
@@ -87,8 +108,9 @@ export const TOOLS = [
         },
     }, [], validateSsiFile),
     tool("check_payment_against_ssi", "Check payment against SSI file", "Check that a payment pays the beneficiary institution through the correspondent and account in the user's own SSI file. Reads the route from a pacs.008 (creditor agent, last intermediary, CdtrAgtAcct) or pacs.009 (creditor, creditor agent, CdtrAcct), or from explicit fields, then looks up owner BIC + currency + asset category and compares with the preferred SSI effective on the value date. Returns MATCH, ACCOUNT_MISMATCH, AGENT_MISMATCH, NOT_PREFERRED, AMBIGUOUS_SSI, NO_EFFECTIVE_SSI or NO_SSI per transaction. Accounts are masked.", {
-        ssi_path: str("Path to the user's SSI file (SWIFTRef SSI Plus V3, CSV or TSV)."),
+        ssi_path: str("Path to the user's SSI file: SWIFTRef SSI Plus V3, a SWIFTRef Payments Directory RELATIONSHIPS file, or a CSV/TSV from any provider."),
         ssi_content: str("The SSI file content, inline (small files only)."),
+        column_map: columnMap(SSI_COLUMN_MAP_HELP),
         ...xmlSource,
         owner_bic: str("Beneficiary institution BIC (the SSI owner). Overrides the message."),
         currency: str("ISO 4217 currency. Overrides the message."),

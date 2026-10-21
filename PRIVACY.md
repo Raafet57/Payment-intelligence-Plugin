@@ -14,7 +14,7 @@ None. The bundled MCP server (`server/runtime/`) makes no network requests. Its 
 
 ## Reference data
 
-The plugin provides no licensed reference data (no SwiftRef, BIC Directory or SSI data). It reads reference files you already hold, such as your SSI file, only when you point a tool at them, and never copies or sends them anywhere.
+The plugin provides no licensed reference data (no SwiftRef, BIC Directory or SSI data). It reads reference files you already hold, such as your SSI file or your BIC Directory and Payments Directory downloads, only when you point a tool at them (or set `PAYMENT_INTELLIGENCE_REFERENCE_PATH`). It returns only the records that match your request, never copies a file, and never sends anything anywhere.
 
 ## Files
 

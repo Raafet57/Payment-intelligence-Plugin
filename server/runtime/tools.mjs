@@ -16,6 +16,10 @@ import { analyzeIban, buildIban, getBbanTemplate, getCountry, getRegistryMeta } 
 import { analyzeDocuments, decodeReasonCode, insightsToMarkdown, listReasonCodes, REASON_CODE_CAVEAT, } from "./lib/insights/index.mjs";
 import { scrub, ScrubInputError } from "./lib/iso20022/index.mjs";
 import { buildNarratives, buildOperatorSummary, generateInsights, parseStory, StorytellerInputError, summarizeMarkdown, } from "./lib/storyteller/index.mjs";
+import { firstLine } from "./reference/lines.mjs";
+import { lookupReference, ReferenceInputError, } from "./reference/lookup.mjs";
+import { ssiRecordsFromRelationships } from "./reference/ssi-relationships.mjs";
+import { filePrefix, isSwiftRefHeader } from "./reference/swiftref.mjs";
 import { checkRoute, RouteError, routesFromMessage } from "./ssi/match.mjs";
 import { parseSsiFile, SsiFileError } from "./ssi/parse.mjs";
 import { isActive, SSI_RULES, validateRecords } from "./ssi/rules.mjs";
@@ -67,14 +71,60 @@ export function buildIbanTool(input) {
     }
     return buildIban({ countryCode, fields: input.fields });
 }
+/** Environment variable naming the user's reference data (a SWIFTRef folder or a CSV/TSV). */
+export const REFERENCE_PATH_ENV = "PAYMENT_INTELLIGENCE_REFERENCE_PATH";
+const referencePath = (explicit) => explicit ?? (process.env[REFERENCE_PATH_ENV] || undefined);
 export function checkBic(input) {
     // The plugin ships no bank-directory data, so drop the demo-snapshot lookup.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { snapshotEntry, ...result } = analyzeBic(input.bic);
-    return {
+    const base = {
         ...result,
         checks: result.checks.filter((check) => check.id !== "snapshot"),
-        caveat: "ISO 9362 syntax and country-code checks only. No bank directory is bundled: a well-formed BIC may not exist or be reachable. Never use this for routing or compliance decisions.",
+    };
+    const source = referencePath(input.reference_path);
+    if (!source) {
+        return {
+            ...base,
+            caveat: "ISO 9362 syntax and country-code checks only. No bank directory is bundled: pass reference_path (your BIC Directory or Payments Directory folder, or a CSV/TSV export) to look the BIC up in your own data. A well-formed BIC may not exist or be reachable. Never use this for routing or compliance decisions.",
+        };
+    }
+    const lookup = runLookup(source, [input.bic], input.as_of);
+    const hit = lookup.results[0];
+    const current = hit.identifiers.filter((i) => i.current);
+    return {
+        ...base,
+        directory: {
+            sources: lookup.sources.map((s) => s.file),
+            as_of: lookup.as_of,
+            found: hit.identifiers.length > 0,
+            current: current.length > 0,
+            records: hit.identifiers,
+            successor: hit.identifiers.find((i) => i.successor_id)?.successor_id,
+            participations: hit.participations,
+            notes: lookup.notes,
+        },
+        caveat: "Looked up in your own reference files. A current directory record does not prove the institution can be reached for a given payment: service participation, routing and bilateral relationships are separate checks.",
+    };
+}
+function runLookup(source, ids, asOf, columnMap) {
+    try {
+        return lookupReference(source, ids, checkDate(asOf, "as_of") ?? today(), columnMap);
+    }
+    catch (err) {
+        if (err instanceof ReferenceInputError)
+            throw new ToolInputError(err.message);
+        throw err;
+    }
+}
+export function lookupReferenceData(input) {
+    const source = referencePath(input.path);
+    if (!source) {
+        throw new ToolInputError(`Pass \`path\` (an unzipped SWIFTRef BIC Directory or Payments Directory folder, one of its .txt files, or a CSV/TSV export from any provider), or set ${REFERENCE_PATH_ENV}.`);
+    }
+    return {
+        ...runLookup(source, input.ids, input.as_of, input.column_map),
+        caveat: "Results come only from the reference files you pointed at, read locally. Only matching records are returned, and account numbers are masked. A current record does not prove reachability for a specific payment.",
     };
 }
 export function explainPaymentMessage(input) {
@@ -165,6 +215,22 @@ export function decodeReasonCodeTool(input) {
 const SEVERITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
 const today = () => new Date().toISOString().slice(0, 10);
 function readSsiFile(input) {
+    if (input.ssi_path !== undefined && input.ssi_content === undefined) {
+        const resolved = path.resolve(input.ssi_path);
+        if (existsSync(resolved) &&
+            statSync(resolved).isFile() &&
+            filePrefix(resolved) === "RELATIONSHIPS" &&
+            isSwiftRefHeader(firstLine(resolved))) {
+            try {
+                return { ...ssiRecordsFromRelationships(resolved), source: input.ssi_path };
+            }
+            catch (err) {
+                if (err instanceof ReferenceInputError || err instanceof Error)
+                    throw new ToolInputError(err.message);
+                throw err;
+            }
+        }
+    }
     if (input.ssi_path !== undefined && input.ssi_content !== undefined) {
         throw new ToolInputError("Pass either `ssi_path` or `ssi_content`, not both.");
     }
@@ -176,7 +242,10 @@ function readSsiFile(input) {
     if (text === undefined)
         throw new ToolInputError("Pass the SSI file as `ssi_path` or `ssi_content`.");
     try {
-        return { ...parseSsiFile(text), source: input.ssi_path ?? "inline SSI content" };
+        return {
+            ...parseSsiFile(text, input.column_map),
+            source: input.ssi_path ?? "inline SSI content",
+        };
     }
     catch (err) {
         if (err instanceof SsiFileError)

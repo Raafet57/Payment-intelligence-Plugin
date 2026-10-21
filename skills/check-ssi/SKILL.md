@@ -1,11 +1,13 @@
 ---
 name: check-ssi
-description: Validate standing settlement instructions (SSIs) and check payments against the user's own SSI file. Use when the user asks to validate, clean up or review an SSI file (SWIFTRef SSI Plus, or a CSV/TSV export from any provider or in-house system; Excel sheets must be saved as CSV first), or asks whether a payment, pacs.008 or pacs.009 uses the right correspondent, account or settlement route for a beneficiary bank.
+description: Validate standing settlement instructions (SSIs) and check payments against the user's own SSI file. Use when the user asks to validate, clean up or review an SSI file (SWIFTRef SSI Plus, the SSIs in a SWIFTRef Payments Directory RELATIONSHIPS file, or a CSV/TSV export from any provider such as LexisNexis, or an in-house system; Excel sheets must be saved as CSV first), or asks whether a payment, pacs.008 or pacs.009 uses the right correspondent, account or settlement route for a beneficiary bank.
 ---
 
 # Check SSIs
 
-The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI file, read locally. It is provider-agnostic: SWIFTRef SSI Plus files and CSV/TSV exports from any provider or in-house system both work. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
+The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI file, read locally. It is provider-agnostic: SWIFTRef SSI Plus files, the RELATIONSHIPS file of a SWIFTRef Payments Directory download (its SSI rows; keep the STRUCTURES file beside it), and CSV/TSV exports from any provider or in-house system all work. **Pass it as `ssi_path` and do not open it yourself.** It holds account numbers, and the tools mask them in every result.
+
+If the tool cannot find the owner BIC and currency columns (for example a provider layout it does not know), ask the user which columns hold the owner BIC, currency, asset category, correspondent and account, and pass them as `column_map`, for example `{"ownerBic": "Bank SWIFT", "accountHolderBic": "Nostro Agent", "currency": "Ccy"}`.
 
 ## Validate an SSI file
 
@@ -27,7 +29,7 @@ The plugin ships no SSI or SwiftRef data: both tools work on the user's own SSI 
    - `MATCH_AGENT_ONLY`: correspondent agrees; the account could not be compared.
    - `AGENT_MISMATCH` or `ACCOUNT_MISMATCH`: name the expected correspondent or masked account next to what the payment uses, and recommend holding the payment until it is repaired or confirmed with the beneficiary bank.
    - `NOT_PREFERRED`: the route is valid but not the preferred one.
-   - `AMBIGUOUS_SSI`, `NO_EFFECTIVE_SSI`, `NO_SSI`: the SSI file itself needs attention. Suggest running `validate_ssi_file`.
+   - `AMBIGUOUS_SSI`, `NO_EFFECTIVE_SSI`, `NO_SSI`: the SSI file itself needs attention. Suggest running `validate_ssi_file`. With `AMBIGUOUS_SSI`, say whether `payment_correspondent_listed` is true: the payment then uses one of the effective SSIs, but none is marked preferred (common in SWIFTRef data).
 4. State the assumptions the tool reports (which message fields were used).
 
 ## Boundaries

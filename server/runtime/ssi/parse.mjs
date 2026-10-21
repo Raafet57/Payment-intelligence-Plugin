@@ -3,10 +3,11 @@
 /**
  * Reads a user's SSI file into one record shape.
  *
- * Supported: the SWIFTRef SSI Plus V3 tab-delimited file (28-field header), and CSV or
- * TSV exports whose headers match the aliases below (including SSI Control Tower's
- * import CSV). Values are kept as found; rules normalise them. Account numbers stay in
- * memory only and are masked before anything is returned.
+ * Supported: the SWIFTRef SSI Plus V3 tab-delimited file (28-field header), the SSI rows
+ * of a SWIFTRef Payments Directory RELATIONSHIPS file (see ../reference/ssi-relationships),
+ * and CSV or TSV exports from any provider or in-house system whose headers match the
+ * aliases below, or are named in a `columnMap`. Values are kept as found; rules normalise
+ * them. Account numbers stay in memory only and are masked before anything is returned.
  */
 /** Header aliases in priority order: the first one present wins. */
 const ALIASES = {
@@ -18,6 +19,8 @@ const ALIASES = {
         "account owner bic",
         "counterparty bic",
         "beneficiary bank bic",
+        "bank bic",
+        "bank swift code",
         "entity bic",
         "bic",
     ],
@@ -44,6 +47,9 @@ const ALIASES = {
         "settlement agent bic",
         "local agent bic",
         "global custodian bic",
+        "correspondent swift code",
+        "correspondent swift bic",
+        "intermediary bic",
     ],
     accountHolderName: [
         "institution name account holding institution",
@@ -59,6 +65,8 @@ const ALIASES = {
     account: [
         "account nbr with account holding institution",
         "account number",
+        "correspondent account",
+        "nostro account",
         "account no",
         "account",
         "cash account",
@@ -70,7 +78,7 @@ const ALIASES = {
     trafficFlag: ["traffic flag"],
     trafficDate: ["traffic date"],
     startDate: ["start date", "effective from", "effective date", "valid from"],
-    stopDate: ["stop date", "effective to", "valid to"],
+    stopDate: ["stop date", "effective to", "valid to", "expiry date"],
     status: ["status"],
     lastConfirmed: ["last confirmed", "last confirmed at", "confirmed on"],
 };
@@ -82,7 +90,14 @@ const SSIPLUS_V3_MARKERS = [
 ];
 export class SsiFileError extends Error {
 }
-export function parseSsiFile(text) {
+/** Field names a caller can map to header names with `columnMap`. */
+export const SSI_FIELDS = Object.keys(ALIASES);
+/**
+ * Parses an SSI file. `columnMap` maps canonical fields to header names for exports whose
+ * headers the aliases do not cover (for example a provider's own layout); it wins over
+ * the aliases.
+ */
+export function parseSsiFile(text, columnMap) {
     // .xlsx is a zip ("PK"); legacy .xls decodes to a replacement character and NUL bytes.
     if (text.startsWith("PK\u0003\u0004") ||
         (text.charCodeAt(0) === 0xfffd && text.includes("\u0000"))) {
@@ -102,10 +117,19 @@ export function parseSsiFile(text) {
     for (const [field, aliases] of Object.entries(ALIASES)) {
         index[field] = aliases.map((a) => lower.indexOf(a)).find((i) => i >= 0) ?? -1;
     }
+    for (const [field, name] of Object.entries(columnMap ?? {})) {
+        if (!(field in ALIASES)) {
+            throw new SsiFileError(`column_map: unknown field "${field}". Known fields: ${SSI_FIELDS.join(", ")}.`);
+        }
+        const i = lower.indexOf(name.trim().toLowerCase());
+        if (i < 0)
+            throw new SsiFileError(`column_map.${field}: no column named "${name}" in the file.`);
+        index[field] = i;
+    }
     const used = new Set(Object.values(index).filter((i) => i >= 0));
     const columns = Object.keys(index).filter((f) => index[f] >= 0);
     if (index.ownerBic < 0 || index.currency < 0) {
-        throw new SsiFileError("Could not find the owner BIC and currency columns. Expected a SWIFTRef SSI Plus V3 file or a CSV/TSV with headers such as 'Owner BIC', 'Currency', 'Asset Category', 'Account Holder BIC' and 'Account Number'.");
+        throw new SsiFileError("Could not find the owner BIC and currency columns. Expected a SWIFTRef SSI Plus V3 file, a SWIFTRef RELATIONSHIPS file, or a CSV/TSV with headers such as 'Owner BIC', 'Currency', 'Asset Category', 'Account Holder BIC' and 'Account Number'. For another provider's layout, pass column_map (for example {\"ownerBic\": \"Bank SWIFT\", \"currency\": \"Ccy\"}).");
     }
     const records = [];
     rows.slice(1).forEach((cells, i) => {
@@ -124,12 +148,12 @@ export function parseSsiFile(text) {
         ignoredColumns: header.filter((cell, i) => cell && !used.has(i)),
     };
 }
-function detectDelimiter(headerLine) {
+export function detectDelimiter(headerLine) {
     const counts = ["\t", ",", ";", "|"].map((d) => [d, headerLine.split(d).length - 1]);
     return counts.sort((a, b) => b[1] - a[1])[0][0];
 }
 /** RFC 4180-style parsing: quoted fields may contain delimiters, quotes ("") and newlines. */
-function parseDelimited(text, delimiter) {
+export function parseDelimited(text, delimiter) {
     const rows = [];
     let row = [];
     let cell = "";
