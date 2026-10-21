@@ -70,9 +70,9 @@ export function analyzeBic(input) {
     const countryShape = RE_COUNTRY.test(countryCode);
     const countryKnown = countryShape && isKnownSnapshotCountry(countryCode);
     checks.push(check("country", "Country code", countryKnown ? "pass" : "fail", countryKnown
-        ? `${countryCode} is represented in the bundled demo snapshot.`
+        ? `${countryCode} is a recognised ISO 3166 country code.`
         : countryShape
-            ? `${countryCode} is not represented in the bundled demo snapshot.`
+            ? `${countryCode} is not a recognised ISO 3166 country code.`
             : `Country code must be two letters; got “${countryCode}”.`));
     const locationOk = RE_LOCATION.test(locationCode);
     checks.push(check("location", "Location code", locationOk ? "pass" : "fail", locationOk

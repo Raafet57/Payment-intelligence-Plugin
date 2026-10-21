@@ -21,7 +21,7 @@ Our ops team got this back from the correspondent. What happened to the payment 
       <IntrBkSttlmDt>2025-03-21</IntrBkSttlmDt><ChrgBr>SHAR</ChrgBr>
       <InstgAgt><FinInstnId><BICFI>HMBKTH2BXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>HMBKUS33XXX</BICFI></FinInstnId></InstdAgt><RtrChain><Dbtr><Pty><Nm>Original Debtor</Nm></Pty></Dbtr><Cdtr><Pty><Nm>Original Beneficiary</Nm></Pty></Cdtr></RtrChain><RtrRsnInf>
         <Rsn><Cd>AC06</Cd></Rsn>
-        <AddtlInf>Closed account</AddtlInf>
+        <AddtlInf>Blocked account</AddtlInf>
       </RtrRsnInf>
     </TxInf>
   </PmtRtr>

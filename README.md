@@ -61,7 +61,7 @@ Requires Node.js 20.10 or later. Each agent reads its own manifest from this rep
 | **VS Code** (agent plugins) | Add the same repository as a plugin marketplace in VS Code, or use the npm package below as an MCP server                                      |
 | **Gemini CLI**              | `gemini extensions install https://github.com/Raafet57/payment-intelligence-plugin`                                                            |
 | **Cursor**                  | Cursor Marketplace (once listed), or the npm package below as an MCP server                                                                    |
-| **Any MCP client**          | Run `npx -y payment-intelligence-mcp@0.1.0` as a stdio MCP server (skills are not included this way)                                           |
+| **Any MCP client**          | Run `npx -y payment-intelligence-mcp@0.1.1` as a stdio MCP server (skills are not included this way)                                           |
 
 Then start a new session and try one of the requests above. To try it without your own data, use the sample messages in [`samples/`](./samples).
 

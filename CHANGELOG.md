@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 (2026-10-21)
+
+- `check_bic`: the country check now reads "GB is a recognised ISO 3166 country code." instead of referring to a bundled demo snapshot. The plugin bundles no BIC directory data.
+- The `pacs004-return-ac06.xml` sample now gives "Blocked account" as its additional information, matching the ISO meaning of AC06 (closed account is AC04).
+- The Cursor manifest (`.cursor-plugin/plugin.json`) now sets `logo` to the plugin icon for the Cursor Marketplace.
+
 ## 0.1.0 (2026-10-21)
 
 - Offline MCP tools (explain, scrub, CBPR+ readiness, lifecycle, reason codes, IBAN validate and build, BIC check) and skills (explain a message, scrub before sharing, triage an exception, check identifiers).
