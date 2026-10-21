@@ -9,6 +9,9 @@
   "license": "MIT",
   "homepage": "https://github.com/Raafet57/payment-intelligence-plugin",
   "repository": "https://github.com/Raafet57/payment-intelligence-plugin",
+  "privacyPolicyUrl": "https://github.com/Raafet57/payment-intelligence-plugin/blob/main/PRIVACY.md",
+  "supportUrl": "https://github.com/Raafet57/payment-intelligence-plugin/issues",
+  "documentationUrl": "https://github.com/Raafet57/payment-intelligence-plugin#readme",
   "keywords": [
     "payments",
     "iso20022",
