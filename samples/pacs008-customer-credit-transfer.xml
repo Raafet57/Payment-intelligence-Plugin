@@ -11,7 +11,7 @@
     </GrpHdr>
     <CdtTrfTxInf>
       <PmtId>
-        <InstrId>TX-20260612-7741-INSTR</InstrId>
+        <InstrId>TX-7741-INSTR</InstrId>
         <EndToEndId>INV-7741-2026</EndToEndId>
         <UETR>7a562c67-ca16-48ba-b074-65581be6f001</UETR>
       </PmtId>

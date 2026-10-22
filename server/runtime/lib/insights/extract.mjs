@@ -136,6 +136,7 @@ export function extractRecord(story, fileName, fileIndex) {
         originalTxId: summary.correlation?.originalTxId ?? null,
         originalInstrId: summary.correlation?.originalInstrId ?? null,
         originalMsgId: summary.correlation?.originalMsgId ?? null,
+        caseId: summary.case?.caseId ?? null,
     });
     const structuredEntries = summary.transactions && summary.transactions.length > 0
         ? summary.transactions.map(structuredTransactionEntry)

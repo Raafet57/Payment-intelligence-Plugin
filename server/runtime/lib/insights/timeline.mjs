@@ -13,7 +13,21 @@ function roleLabel(doc) {
         return "Account report";
     if (doc.kind === "camt.053")
         return "Statement";
+    if (doc.kind === "camt.056")
+        return `Cancellation request${doc.status?.reasonCode ? ` (${doc.status.reasonCode})` : ""}`;
+    if (doc.kind === "camt.029")
+        return `Resolution of investigation${doc.status?.code ? ` (${doc.status.code})` : ""}`;
+    if (doc.kind === "camt.110")
+        return caseDetail(doc);
+    if (doc.kind === "camt.111")
+        return `Investigation response${doc.status?.code ? ` (${doc.status.code})` : ""}`;
     return "Credit notification";
+}
+function caseDetail(doc) {
+    const c = doc.story.support === "structured" ? doc.story.data.case : undefined;
+    if (c?.requestedAction)
+        return `Investigation follow-up (${c.requestedAction})`;
+    return `Investigation request${c?.investigationType ? ` (${c.investigationType})` : ""}`;
 }
 export function eventTimestamp(doc) {
     return doc.createdAt ?? doc.settlementDate ?? null;

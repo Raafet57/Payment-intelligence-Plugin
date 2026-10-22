@@ -11,6 +11,7 @@ const THREAD_KEY_LABELS = {
     originalInstrId: "Original instruction ID",
     msgId: "Message ID",
     originalMsgId: "Original message ID",
+    caseId: "Case ID",
     fileName: "File name",
 };
 export function humanizeThreadKey(kind) {

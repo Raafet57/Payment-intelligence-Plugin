@@ -61,7 +61,7 @@ export const TOOLS = [
         as_of: str("Date for current or expired, YYYY-MM-DD. Defaults to today."),
         column_map: columnMap('For a CSV/TSV whose headers are not recognised: map fields to header names, for example {"id": "Swift Code", "name": "Bank"}. Fields: id, idType, name, town, country, status, modification, start, stop, successor, linkedBic, service, participant, reach.'),
     }, ["ids"], lookupReferenceData),
-    tool("explain_payment_message", "Explain payment message", "Explain an ISO 20022 payment message. pacs.008, pacs.009 and camt.053 get a plain-language narrative; pacs.002, pacs.004, camt.052 and camt.054 get a structured field projection. All get an operator summary and quick insights.", xmlSource, [], explainPaymentMessage),
+    tool("explain_payment_message", "Explain payment message", "Explain an ISO 20022 payment message. pacs.008, pacs.009 and camt.053 get a plain-language narrative; pacs.002, pacs.004, camt.052 and camt.054 get a structured field projection. Case messages (camt.056 cancellation request, camt.029 resolution, camt.110 investigation request, camt.111 investigation response) get the projection plus a `case` field: case id, investigation type, status, reason and the underlying payment's UETR and references. All get an operator summary and quick insights.", xmlSource, [], explainPaymentMessage),
     tool("scrub_payment_message", "Scrub payment message", "Replace names, IBANs, account ids, UETRs and references in a pacs/camt message with consistent pseudonyms. With `path` + `output_path`, writes the scrubbed copy to disk and returns only masked statistics, so the original data never enters the conversation. Never overwrites an existing file.", {
         ...xmlSource,
         output_path: str("Where to write the scrubbed XML. Must not exist yet and must differ from `path`."),
@@ -84,7 +84,7 @@ export const TOOLS = [
         },
     }, [], scrubPaymentMessage, false),
     tool("check_cbpr_readiness", "Check CBPR+ readiness", "Local CBPR+ readiness hints: AppHdr/Document namespaces, schema-profile coverage, UETR, BIC and IBAN syntax. Not a certified validator.", xmlSource, [], checkCbpr),
-    tool("analyze_payment_lifecycle", "Analyze payment lifecycle", "Group a set of ACK/NACK, pacs and camt files by shared identifiers (UETR, EndToEndId, TxId) into threads with a timeline and warnings. Works only on the files given.", {
+    tool("analyze_payment_lifecycle", "Analyze payment lifecycle", "Group a set of ACK/NACK, pacs and camt files by shared identifiers (UETR, EndToEndId, TxId) into threads with a timeline and warnings. Case messages (camt.056, camt.029, camt.110, camt.111) join the thread of the payment they quote. Works only on the files given.", {
         paths: { type: "array", description: "Local file paths.", items: { type: "string" } },
         documents: {
             type: "array",

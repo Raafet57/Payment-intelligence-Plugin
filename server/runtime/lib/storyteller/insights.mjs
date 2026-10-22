@@ -137,12 +137,74 @@ function structuredInsights(summary) {
             message: `Return carries reason code ${reason}.`,
         });
     }
+    if (summary.case)
+        out.push(...caseInsights(summary.case));
     if ((summary.kind === "camt.052" || summary.kind === "camt.054") &&
         summary.entries.length === 0) {
         out.push({
             id: "no-report-entries",
             severity: "info",
             message: "Report contains no entries.",
+        });
+    }
+    return out;
+}
+function caseInsights(c) {
+    const out = [];
+    const u = c.underlying;
+    const quotesPayment = Boolean(u.uetr ?? u.endToEndId ?? u.txId ?? u.instrId ?? u.msgId);
+    if (c.role === "investigation-response") {
+        // Swift's camt.111 usage guidelines drop the underlying payment from the echoed request.
+        if (!quotesPayment) {
+            out.push({
+                id: "case-response-by-eir",
+                severity: "info",
+                message: "Investigation response quotes the case, not the payment. Load its camt.110 to link it to the payment by EIR.",
+            });
+        }
+    }
+    else if (!quotesPayment) {
+        out.push({
+            id: "case-no-underlying",
+            severity: "warn",
+            message: "Case message quotes no reference for the underlying payment.",
+        });
+    }
+    else if (!u.uetr) {
+        out.push({
+            id: "case-missing-uetr",
+            severity: "warn",
+            message: "Case message does not quote the original UETR, so linking it to the payment is less reliable.",
+        });
+    }
+    if (!c.caseId) {
+        out.push({
+            id: "case-missing-id",
+            severity: "info",
+            message: "No case reference (EIR, requestor investigation id or Case/Id) found; pair the request and answer by message and payment references.",
+        });
+    }
+    if (c.role === "resolution" && c.statusCode === "RJCR") {
+        out.push({
+            id: "cancellation-rejected",
+            severity: "warn",
+            message: c.reasonCode
+                ? `Cancellation request was rejected (reason ${c.reasonCode}).`
+                : "Cancellation request was rejected.",
+        });
+    }
+    if (c.role === "resolution" && c.statusCode === "CNCL") {
+        out.push({
+            id: "cancellation-accepted",
+            severity: "info",
+            message: "Cancellation was accepted; the funds should come back in a separate return message.",
+        });
+    }
+    if (c.role === "resolution" && c.statusCode === "PDCR") {
+        out.push({
+            id: "cancellation-pending",
+            severity: "info",
+            message: "Cancellation is pending; expect a further camt.029 answer.",
         });
     }
     return out;

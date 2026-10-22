@@ -3,7 +3,7 @@
   "name": "io.github.Raafet57/payment-intelligence",
   "title": "Payment Intelligence",
   "description": "Offline ISO 20022 payment tools: explain and scrub pacs/camt, CBPR+, SSI checks, IBAN and BIC.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repository": {
     "url": "https://github.com/Raafet57/payment-intelligence-plugin",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "payment-intelligence-mcp",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "transport": {
         "type": "stdio"
       }

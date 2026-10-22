@@ -1,6 +1,7 @@
 // Generated from src/lib/storyteller/parser.ts by plugins/payment-intelligence/server/build.mjs.
 // Edit the source, not this file.
 import { detectMessageKind, findDescendantsByLocalName, getChildrenByLocalName, getFirstChildByLocalName, getLocalName, parseXml, } from "../iso20022/index.mjs";
+import { extractCase } from "./cases.mjs";
 import { StorytellerInputError, } from "./types.mjs";
 /**
  * Parse an ISO 20022 message into a normalized Story shape. Full support produces a
@@ -8,7 +9,7 @@ import { StorytellerInputError, } from "./types.mjs";
  * unsupported messages return a tagged record so the UI can render a graceful fallback.
  */
 export function parseStory(input) {
-    const parsed = parseXml(input);
+    const parsed = parseMessageXml(input);
     if (!parsed.ok) {
         throw new StorytellerInputError(parsed.error);
     }
@@ -27,7 +28,11 @@ export function parseStory(input) {
         kind !== "pacs.002" &&
         kind !== "pacs.004" &&
         kind !== "camt.052" &&
-        kind !== "camt.054") {
+        kind !== "camt.054" &&
+        kind !== "camt.029" &&
+        kind !== "camt.056" &&
+        kind !== "camt.110" &&
+        kind !== "camt.111") {
         return { kind: "unknown", support: "unsupported", detectedKind: kind };
     }
     const body = firstElementChild(documentEl);
@@ -51,7 +56,28 @@ export function parseStory(input) {
                 support: "structured",
                 data: extractStructured(body, kind),
             };
+        case "camt.029":
+        case "camt.056":
+        case "camt.110":
+        case "camt.111":
+            return { kind, support: "structured", data: extractCase(body, kind) };
     }
+}
+/**
+ * Network exports often hold the business application header and the Document as two
+ * top-level elements, which is not one well-formed XML document. When plain parsing
+ * fails on such a file, parse it again inside a neutral wrapper.
+ */
+function parseMessageXml(input) {
+    const parsed = parseXml(input);
+    if (parsed.ok)
+        return parsed;
+    const body = input.trim().replace(/^<\?xml[^>]*\?>/, "");
+    if (!/^\s*<([\w-]+:)?AppHdr[\s>]/.test(body) || !/<([\w-]+:)?Document[\s>]/.test(body)) {
+        return parsed;
+    }
+    const wrapped = parseXml(`<Envelope>${body}</Envelope>`);
+    return wrapped.ok ? wrapped : parsed;
 }
 function findDocumentElement(root) {
     if (getLocalName(root) === "Document")
@@ -537,7 +563,7 @@ function formatMoney(amount) {
     return amount.currency ? `${amount.value} ${amount.currency}` : amount.value;
 }
 export function detectKindFromText(input) {
-    const parsed = parseXml(input);
+    const parsed = parseMessageXml(input);
     if (!parsed.ok) {
         throw new StorytellerInputError(parsed.error);
     }

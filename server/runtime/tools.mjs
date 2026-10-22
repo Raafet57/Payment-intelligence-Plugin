@@ -147,6 +147,7 @@ export function explainPaymentMessage(input) {
         concise: narratives.concise,
         insights: generateInsights(story),
         summaryMarkdown: summarizeMarkdown(story),
+        ...(story.support === "structured" && story.data.case ? { case: story.data.case } : {}),
     };
 }
 export function scrubPaymentMessage(input) {

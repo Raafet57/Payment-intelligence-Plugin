@@ -2,7 +2,7 @@
 // Edit the source, not this file.
 import { buildTimeline } from "./timeline.mjs";
 import { warningsForDocuments } from "./warnings.mjs";
-import { EMPTY_KEYS } from "./types.mjs";
+import { CASE_KINDS, EMPTY_KEYS } from "./types.mjs";
 const KEY_PRIORITY = ["uetr", "endToEndId", "txId", "instrId", "msgId"];
 class UnionFind {
     parent;
@@ -58,6 +58,7 @@ function keysFromEntry(doc, entry, multiUnit) {
         originalMsgId: includeDocumentGroupKeys
             ? (entry.originalMsgId ?? doc.keys.originalMsgId)
             : null,
+        caseId: doc.keys.caseId,
     };
 }
 function expandDocumentForCorrelation(doc) {
@@ -157,6 +158,18 @@ function bestShared(a, b) {
             if (left.kind === right.kind && left.value === right.value)
                 candidates.push(left);
         }
+        // A case request and its answer both quote the payment, so they share original keys.
+        if (CASE_KINDS.has(a.kind) && CASE_KINDS.has(b.kind)) {
+            for (const right of bOriginal) {
+                if (left.kind === right.kind && left.value === right.value)
+                    candidates.push(left);
+            }
+        }
+    }
+    // A camt.111 need not quote the payment; it shares the case reference (EIR) with its camt.110.
+    const aCase = clean(a.keys.caseId);
+    if (aCase && aCase === clean(b.keys.caseId) && CASE_KINDS.has(a.kind) && CASE_KINDS.has(b.kind)) {
+        candidates.push({ kind: "caseId", value: aCase, priority: KEY_PRIORITY.length });
     }
     return (candidates.sort((x, y) => x.priority - y.priority || x.value.localeCompare(y.value))[0] ?? null);
 }

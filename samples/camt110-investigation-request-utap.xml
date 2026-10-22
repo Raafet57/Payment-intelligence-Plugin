@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+    <Fr><FIId><FinInstnId><BICFI>NWBKGB2LXXX</BICFI></FinInstnId></FIId></Fr>
+    <To><FIId><FinInstnId><BICFI>TRCKCHZZXXX</BICFI></FinInstnId></FIId></To>
+    <BizMsgIdr>UTAP-20260615-0007</BizMsgIdr>
+    <MsgDefIdr>camt.110.001.01</MsgDefIdr>
+    <BizSvc>swift.case.utap.02</BizSvc>
+    <CreDt>2026-06-15T08:40:00+00:00</CreDt>
+  </AppHdr>
+  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.110.001.01">
+    <InvstgtnReq>
+      <InvstgtnReq>
+        <MsgId>UTAP-20260615-0007</MsgId>
+        <RqstrInvstgtnId>NWB2606150007</RqstrInvstgtnId>
+        <EIR>c1d2e3f4-0a1b-4c2d-8e3f-5a6b7c8d9e01</EIR>
+        <InvstgtnTp>
+          <Cd>UTAP</Cd>
+        </InvstgtnTp>
+        <UndrlygInstrm>
+          <Cd>XBCT</Cd>
+        </UndrlygInstrm>
+        <Undrlyg>
+          <IntrBk>
+            <OrgnlGrpInf>
+              <OrgnlMsgId>TX-20260612-7741</OrgnlMsgId>
+              <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+              <OrgnlCreDtTm>2026-06-12T09:14:22+00:00</OrgnlCreDtTm>
+            </OrgnlGrpInf>
+            <OrgnlInstrId>TX-7741-INSTR</OrgnlInstrId>
+            <OrgnlEndToEndId>INV-7741-2026</OrgnlEndToEndId>
+            <OrgnlUETR>7a562c67-ca16-48ba-b074-65581be6f001</OrgnlUETR>
+            <OrgnlIntrBkSttlmAmt Ccy="EUR">18720.00</OrgnlIntrBkSttlmAmt>
+            <OrgnlIntrBkSttlmDt>2026-06-12</OrgnlIntrBkSttlmDt>
+          </IntrBk>
+        </Undrlyg>
+        <Rqstr>
+          <Agt>
+            <FinInstnId>
+              <BICFI>NWBKGB2LXXX</BICFI>
+            </FinInstnId>
+          </Agt>
+        </Rqstr>
+        <Rspndr>
+          <Agt>
+            <FinInstnId>
+              <BICFI>DEUTDEFFXXX</BICFI>
+            </FinInstnId>
+          </Agt>
+        </Rspndr>
+      </InvstgtnReq>
+      <InvstgtnData>
+        <Rsn>
+          <Cd>UTAP</Cd>
+        </Rsn>
+      </InvstgtnData>
+    </InvstgtnReq>
+  </Document>
+</Envelope>

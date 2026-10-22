@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+    <Fr><FIId><FinInstnId><BICFI>DEUTDEFFXXX</BICFI></FinInstnId></FIId></Fr>
+    <To><FIId><FinInstnId><BICFI>TRCKCHZZXXX</BICFI></FinInstnId></FIId></To>
+    <BizMsgIdr>UTAP-RSP-20260616-0012</BizMsgIdr>
+    <MsgDefIdr>camt.111.001.02</MsgDefIdr>
+    <BizSvc>swift.case.utap.01</BizSvc>
+    <CreDt>2026-06-16T10:20:00+00:00</CreDt>
+  </AppHdr>
+  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.111.001.02">
+    <InvstgtnRspn>
+      <InvstgtnRspn>
+        <MsgId>UTAP-RSP-20260616-0012</MsgId>
+        <RspndrInvstgtnId>DEU2606160012</RspndrInvstgtnId>
+        <InvstgtnSts>
+          <Sts>CLSD</Sts>
+          <StsRsn>
+            <Cd>CACR</Cd>
+          </StsRsn>
+        </InvstgtnSts>
+      </InvstgtnRspn>
+      <OrgnlInvstgtnReq>
+        <MsgId>UTAP-20260615-0007</MsgId>
+        <RqstrInvstgtnId>NWB2606150007</RqstrInvstgtnId>
+        <EIR>c1d2e3f4-0a1b-4c2d-8e3f-5a6b7c8d9e01</EIR>
+        <InvstgtnTp>
+          <Cd>UTAP</Cd>
+        </InvstgtnTp>
+        <UndrlygInstrm>
+          <Cd>XBCT</Cd>
+        </UndrlygInstrm>
+        <Rqstr>
+          <Agt>
+            <FinInstnId>
+              <BICFI>NWBKGB2LXXX</BICFI>
+            </FinInstnId>
+          </Agt>
+        </Rqstr>
+        <Rspndr>
+          <Agt>
+            <FinInstnId>
+              <BICFI>DEUTDEFFXXX</BICFI>
+            </FinInstnId>
+          </Agt>
+        </Rspndr>
+      </OrgnlInvstgtnReq>
+    </InvstgtnRspn>
+  </Document>
+</Envelope>

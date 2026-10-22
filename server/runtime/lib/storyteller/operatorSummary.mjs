@@ -91,6 +91,21 @@ function structuredLines(story) {
         pushLine(lines, "When", data.createdAt);
         return lines;
     }
+    if (data.case) {
+        const c = data.case;
+        pushLine(lines, "Case", c.caseId);
+        pushLine(lines, "Type", c.investigationType);
+        if (c.statusCode) {
+            const outcome = [c.statusCode, c.reasonCode].filter(Boolean).join(" · ");
+            pushLine(lines, "Status", outcome, "status");
+        }
+        else {
+            pushLine(lines, "Reason", c.reasonCode, "status");
+        }
+        pushLine(lines, "Reference", c.underlying.uetr ?? c.underlying.endToEndId ?? c.underlying.msgId, "ref");
+        pushLine(lines, "When", data.createdAt);
+        return lines;
+    }
     // pacs.002 / pacs.004
     const status = data.rows.find((r) => r.label === "Status")?.value ?? null;
     const reasonCode = data.rows.find((r) => r.label === "Reason code")?.value ?? null;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.056.001.08">
+  <FIToFIPmtCxlReq>
+    <Assgnmt>
+      <Id>CXL-20260616-0091</Id>
+      <Assgnr>
+        <Agt>
+          <FinInstnId>
+            <BICFI>DEUTDEFFXXX</BICFI>
+          </FinInstnId>
+        </Agt>
+      </Assgnr>
+      <Assgne>
+        <Agt>
+          <FinInstnId>
+            <BICFI>TRCKCHZZXXX</BICFI>
+          </FinInstnId>
+        </Agt>
+      </Assgne>
+      <CreDtTm>2026-06-16T10:05:00+00:00</CreDtTm>
+    </Assgnmt>
+    <Undrlyg>
+      <TxInf>
+        <CxlId>CXL7741-1</CxlId>
+        <Case>
+          <Id>DEU2606160091</Id>
+          <Cretr>
+            <Agt>
+              <FinInstnId>
+                <BICFI>DEUTDEFFXXX</BICFI>
+              </FinInstnId>
+            </Agt>
+          </Cretr>
+        </Case>
+        <OrgnlGrpInf>
+          <OrgnlMsgId>TX-20260612-7741</OrgnlMsgId>
+          <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+          <OrgnlCreDtTm>2026-06-12T09:14:22+00:00</OrgnlCreDtTm>
+        </OrgnlGrpInf>
+        <OrgnlInstrId>TX-7741-INSTR</OrgnlInstrId>
+        <OrgnlEndToEndId>INV-7741-2026</OrgnlEndToEndId>
+        <OrgnlUETR>7a562c67-ca16-48ba-b074-65581be6f001</OrgnlUETR>
+        <OrgnlIntrBkSttlmAmt Ccy="EUR">18720.00</OrgnlIntrBkSttlmAmt>
+        <OrgnlIntrBkSttlmDt>2026-06-12</OrgnlIntrBkSttlmDt>
+        <CxlRsnInf>
+          <Orgtr>
+            <Nm>Okonkwo Logistics GmbH</Nm>
+          </Orgtr>
+          <Rsn>
+            <Cd>DUPL</Cd>
+          </Rsn>
+          <AddtlInf>Invoice 7741 was already paid on 10 June 2026</AddtlInf>
+        </CxlRsnInf>
+      </TxInf>
+    </Undrlyg>
+  </FIToFIPmtCxlReq>
+</Document>
