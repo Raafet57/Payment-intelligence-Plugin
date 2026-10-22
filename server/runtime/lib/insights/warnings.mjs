@@ -1,6 +1,19 @@
 // Generated from src/lib/insights/warnings.ts by plugins/payment-intelligence/server/build.mjs.
 // Edit the source, not this file.
 import { CASE_KINDS } from "./types.mjs";
+/** Requests that expect an answer, and the messages that answer them. */
+const CASE_REQUEST_KINDS = new Set([
+    "camt.026",
+    "camt.027",
+    "camt.056",
+    "camt.087",
+    "camt.110",
+]);
+const CASE_ANSWER_KINDS = new Set([
+    "camt.028",
+    "camt.029",
+    "camt.111",
+]);
 function hasCompanion(docs) {
     return docs.some((doc) => doc.kind === "pacs.002" ||
         doc.kind === "pacs.004" ||
@@ -32,13 +45,13 @@ export function warningsForDocuments(documents) {
             message: "Case messages are not linked to an original payment in the local files you provided.",
         });
     }
-    const hasCaseRequest = documents.some((doc) => doc.kind === "camt.056" || doc.kind === "camt.110");
-    const hasCaseAnswer = documents.some((doc) => doc.kind === "camt.029" || doc.kind === "camt.111");
+    const hasCaseRequest = documents.some((doc) => CASE_REQUEST_KINDS.has(doc.kind));
+    const hasCaseAnswer = documents.some((doc) => CASE_ANSWER_KINDS.has(doc.kind));
     if (!only && hasCaseRequest && !hasCaseAnswer) {
         warnings.push({
             id: "open-case",
             severity: "info",
-            message: "A cancellation or investigation request has no camt.029 or camt.111 answer in the local files you provided.",
+            message: "A cancellation or investigation request has no answer (camt.028, camt.029 or camt.111) in the local files you provided.",
         });
     }
     if (documents.some((doc) => (doc.kind === "pacs.008" || doc.kind === "pacs.009") && !doc.keys.uetr)) {

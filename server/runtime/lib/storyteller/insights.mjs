@@ -149,6 +149,12 @@ function structuredInsights(summary) {
     }
     return out;
 }
+const LEGACY_ROLES = new Set([
+    "unable-to-apply",
+    "claim-non-receipt",
+    "additional-information",
+    "modification-request",
+]);
 function caseInsights(c) {
     const out = [];
     const u = c.underlying;
@@ -177,7 +183,7 @@ function caseInsights(c) {
             message: "Case message does not quote the original UETR, so linking it to the payment is less reliable.",
         });
     }
-    if (!c.caseId) {
+    if (!c.caseId && c.role !== "tracker-alert") {
         out.push({
             id: "case-missing-id",
             severity: "info",
@@ -205,6 +211,46 @@ function caseInsights(c) {
             id: "cancellation-pending",
             severity: "info",
             message: "Cancellation is pending; expect a further camt.029 answer.",
+        });
+    }
+    if (c.role === "tracker-alert") {
+        const name = c.underlying.msgNmId;
+        const concerned = name ? ` a ${/^\d/.test(name) ? `MT ${name}` : name} message` : " a message";
+        out.push(c.statusCode === "WARN"
+            ? {
+                id: "tracker-warning",
+                severity: "info",
+                message: `Swift Tracker sent a warning about${concerned}.`,
+            }
+            : {
+                id: "tracker-invalidated",
+                severity: "warn",
+                message: `Swift Tracker did not accept${concerned}${c.statusCode ? ` (${c.statusCode})` : ""}. It was not delivered as sent; look for a corrected resend.`,
+            });
+    }
+    if (LEGACY_ROLES.has(c.role)) {
+        out.push({
+            id: "legacy-case-message",
+            severity: "info",
+            message: "Older ISO E&I message, exchanged bank to bank. In Swift Case Management, investigations use camt.110 and camt.111.",
+        });
+    }
+    const booking = c.details.find((d) => d.label === "Booking confirmation");
+    if (booking) {
+        const amount = booking.rows.find((r) => r.label === "Amount")?.value;
+        const valueDate = booking.rows.find((r) => r.label === "Value date")?.value;
+        out.push({
+            id: "booking-confirmed",
+            severity: "info",
+            message: `Responder confirms a booking${amount ? ` of ${amount}` : ""}${valueDate ? `, value date ${valueDate}` : ""}. Compare it with the payment and the creditor's account statement.`,
+        });
+    }
+    if (c.embeddedMt) {
+        const missing = c.embeddedMt.notCarried;
+        out.push({
+            id: "embedded-mt-copy",
+            severity: "info",
+            message: `Delivered with an MT ${c.embeddedMt.messageType ?? ""} copy for banks that read MT.${missing.length > 0 ? ` The copy leaves out: ${missing.join(", ")}.` : ""}`,
         });
     }
     return out;

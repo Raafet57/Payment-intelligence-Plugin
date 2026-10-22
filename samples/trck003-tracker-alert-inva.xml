@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+    <Fr><FIId><FinInstnId><BICFI>TRCKCHZZXXX</BICFI></FinInstnId></FIId></Fr>
+    <To><FIId><FinInstnId><BICFI>DEUTDEFFXXX</BICFI></FinInstnId></FIId></To>
+    <BizMsgIdr>SRPALERT-0616-0042</BizMsgIdr>
+    <MsgDefIdr>trck.003.001.02</MsgDefIdr>
+    <BizSvc>swift.gpi.02</BizSvc>
+    <CreDt>2026-06-16T09:58:30.000Z</CreDt>
+  </AppHdr>
+  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:trck.003.001.02">
+    <TrckrAlrtNtfctn>
+      <GrpHdr>
+        <MsgId>SRPALERT-0616-0042</MsgId>
+      </GrpHdr>
+      <TrckrStsAndTx>
+        <AlrtSts>
+          <AlrtSts>
+            <Cd>INVA</Cd>
+          </AlrtSts>
+          <AddtlInf>Original instruction identification is missing</AddtlInf>
+        </AlrtSts>
+        <Tx>
+          <TrckdMsgId>
+            <MsgNmId>camt.056.001.08</MsgNmId>
+            <CreDtTm>2026-06-16T09:58:12.000Z</CreDtTm>
+          </TrckdMsgId>
+          <TrckrInfrmgPty>
+            <Id>
+              <FinInstnId>
+                <BICFI>DEUTDEFFXXX</BICFI>
+              </FinInstnId>
+            </Id>
+          </TrckrInfrmgPty>
+          <PmtId>
+            <UETR>7a562c67-ca16-48ba-b074-65581be6f001</UETR>
+          </PmtId>
+          <SvcLvl>
+            <Cd>G002</Cd>
+          </SvcLvl>
+        </Tx>
+      </TrckrStsAndTx>
+    </TrckrAlrtNtfctn>
+  </Document>
+</Envelope>

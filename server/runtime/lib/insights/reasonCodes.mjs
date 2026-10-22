@@ -182,6 +182,36 @@ const CODE_MAP = {
         label: "Already returned",
         demoNote: "The payment was already returned. Look for the matching pacs.004.",
     },
+    INVA: {
+        code: "INVA",
+        family: "status",
+        label: "Invalid (Swift Tracker alert)",
+        demoNote: "trck.003: the Tracker did not accept the message it names. Check the alert details and resend a corrected message.",
+    },
+    RJIN: {
+        code: "RJIN",
+        family: "status",
+        label: "Rejected investigation (Swift Tracker alert)",
+        demoNote: "trck.003: Case Orchestrator rejected the investigation request it names.",
+    },
+    WARN: {
+        code: "WARN",
+        family: "status",
+        label: "Warning (Swift Tracker alert)",
+        demoNote: "trck.003: the Tracker flags something about the message it names, without rejecting it.",
+    },
+    IN14: {
+        code: "IN14",
+        family: "reason",
+        label: "Incorrect creditor account",
+        demoNote: "camt.026 justification: the creditor account in the payment is incorrect.",
+    },
+    MS13: {
+        code: "MS13",
+        family: "reason",
+        label: "Missing creditor account",
+        demoNote: "camt.026 justification: the payment has no creditor account.",
+    },
 };
 export function decodeReasonCode(code) {
     if (!code)

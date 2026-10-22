@@ -13,8 +13,13 @@ const KNOWN_KINDS = new Set([
     "camt.056",
     "camt.110",
     "camt.111",
+    "camt.026",
+    "camt.027",
+    "camt.028",
+    "camt.087",
+    "trck.003",
 ]);
-const NAMESPACE_REGEX = /:(pacs|camt)\.(\d{3})\.\d+\.\d+$/;
+const NAMESPACE_REGEX = /:(pacs|camt|trck)\.(\d{3})\.\d+\.\d+$/;
 /**
  * Identify the ISO 20022 message kind by inspecting the namespace of the `Document`
  * element and falling back to the AppHdr `MsgDefIdr` value. Returns `"unknown"` when no
@@ -56,7 +61,7 @@ function matchKindFromNamespace(ns) {
     return KNOWN_KINDS.has(candidate) ? candidate : null;
 }
 function matchKindFromIdr(value) {
-    const match = /^(pacs|camt)\.(\d{3})/.exec(value);
+    const match = /^(pacs|camt|trck)\.(\d{3})/.exec(value);
     if (!match)
         return null;
     const candidate = `${match[1]}.${match[2]}`;

@@ -32,7 +32,12 @@ export function parseStory(input) {
         kind !== "camt.029" &&
         kind !== "camt.056" &&
         kind !== "camt.110" &&
-        kind !== "camt.111") {
+        kind !== "camt.111" &&
+        kind !== "camt.026" &&
+        kind !== "camt.027" &&
+        kind !== "camt.028" &&
+        kind !== "camt.087" &&
+        kind !== "trck.003") {
         return { kind: "unknown", support: "unsupported", detectedKind: kind };
     }
     const body = firstElementChild(documentEl);
@@ -60,6 +65,11 @@ export function parseStory(input) {
         case "camt.056":
         case "camt.110":
         case "camt.111":
+        case "camt.026":
+        case "camt.027":
+        case "camt.028":
+        case "camt.087":
+        case "trck.003":
             return { kind, support: "structured", data: extractCase(body, kind) };
     }
 }

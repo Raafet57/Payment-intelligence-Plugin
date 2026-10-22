@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.026.001.10">
+  <UblToApply>
+    <Assgnmt>
+      <Id>HOL-UTA-20261019-19</Id>
+      <Assgnr>
+        <Agt>
+          <FinInstnId>
+            <BICFI>HOLDDEFFXXX</BICFI>
+          </FinInstnId>
+        </Agt>
+      </Assgnr>
+      <Assgne>
+        <Agt>
+          <FinInstnId>
+            <BICFI>ORIOUS33XXX</BICFI>
+          </FinInstnId>
+        </Agt>
+      </Assgne>
+      <CreDtTm>2026-10-19T11:30:00+00:00</CreDtTm>
+    </Assgnmt>
+    <Case>
+      <Id>HOL-UTA-0019</Id>
+      <Cretr>
+        <Agt>
+          <FinInstnId>
+            <BICFI>HOLDDEFFXXX</BICFI>
+          </FinInstnId>
+        </Agt>
+      </Cretr>
+    </Case>
+    <Undrlyg>
+      <IntrBk>
+        <OrgnlGrpInf>
+          <OrgnlMsgId>SYNTH-SSI-0002</OrgnlMsgId>
+          <OrgnlMsgNmId>pacs.009.001.08</OrgnlMsgNmId>
+          <OrgnlCreDtTm>2026-10-16T10:00:00+00:00</OrgnlCreDtTm>
+        </OrgnlGrpInf>
+        <OrgnlInstrId>SYNTH-INSTR-0002</OrgnlInstrId>
+        <OrgnlEndToEndId>SYNTH-E2E-0002</OrgnlEndToEndId>
+        <OrgnlUETR>9a8b7c6d-5e4f-4a3b-9c2d-1e0f9a8b7c6d</OrgnlUETR>
+        <OrgnlIntrBkSttlmAmt Ccy="EUR">2500000.00</OrgnlIntrBkSttlmAmt>
+        <OrgnlIntrBkSttlmDt>2026-10-16</OrgnlIntrBkSttlmDt>
+      </IntrBk>
+    </Undrlyg>
+    <Justfn>
+      <MssngOrIncrrctInf>
+        <IncrrctInf>
+          <Tp>
+            <Cd>IN14</Cd>
+          </Tp>
+          <AddtlIncrrctInf>Account DE-ACC-77009003 is not held for the creditor</AddtlIncrrctInf>
+        </IncrrctInf>
+      </MssngOrIncrrctInf>
+    </Justfn>
+  </UblToApply>
+</Document>

@@ -21,13 +21,24 @@ function roleLabel(doc) {
         return caseDetail(doc);
     if (doc.kind === "camt.111")
         return `Investigation response${doc.status?.code ? ` (${doc.status.code})` : ""}`;
+    if (doc.kind === "camt.026")
+        return `Unable to apply${doc.status?.reasonCode ? ` (${doc.status.reasonCode})` : ""}`;
+    if (doc.kind === "camt.027")
+        return "Claim non-receipt";
+    if (doc.kind === "camt.028")
+        return "Additional payment information";
+    if (doc.kind === "camt.087")
+        return "Request to modify payment";
+    if (doc.kind === "trck.003")
+        return `Tracker alert${doc.status?.code ? ` (${doc.status.code})` : ""}`;
     return "Credit notification";
 }
 function caseDetail(doc) {
     const c = doc.story.support === "structured" ? doc.story.data.case : undefined;
+    const delivered = c?.embeddedMt ? ", delivered with MT copy" : "";
     if (c?.requestedAction)
-        return `Investigation follow-up (${c.requestedAction})`;
-    return `Investigation request${c?.investigationType ? ` (${c.investigationType})` : ""}`;
+        return `Investigation follow-up (${c.requestedAction})${delivered}`;
+    return `Investigation request${c?.investigationType ? ` (${c.investigationType})` : ""}${delivered}`;
 }
 export function eventTimestamp(doc) {
     return doc.createdAt ?? doc.settlementDate ?? null;
