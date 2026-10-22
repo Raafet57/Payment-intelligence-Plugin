@@ -19,6 +19,7 @@ Synthetic ISO 20022 messages for trying the plugin. Every name, address and refe
 | `camt029-cancellation-accepted.xml`           | Resolution of investigation (camt.029.001.09) accepting that cancellation, CNCL                                                                   |
 | `camt110-delivered-with-mt199.xml`            | The same camt.110 as Swift delivers it to the responder: header and Document side by side, with an MT 199 copy and translation report in comments |
 | `trck003-tracker-alert-inva.xml`              | Swift Tracker alert (trck.003.001.02): a first camt.056 for the payment was not accepted (INVA)                                                   |
+| `trck005-case-status-asgn.xml`                | Swift case status (trck.005.001.02): Case Orchestrator assigned the camt.110 to the responder (ASGN)                                              |
 | `camt110-investigation-request-ccnr.xml`      | Investigation request (camt.110.001.01, claim non-receipt) for `pacs008-gbp-to-atlas-via-correspondent.xml`                                       |
 | `camt111-investigation-response-booking.xml`  | Investigation response (camt.111.001.02): closed with a booking confirmation (credited amount and value date)                                     |
 | `camt087-request-to-modify.xml`               | Older request to modify payment (camt.087.001.09) for `pacs009-eur-to-nova-wrong-correspondent.xml`: change the creditor account                  |
@@ -28,7 +29,7 @@ Synthetic ISO 20022 messages for trying the plugin. Every name, address and refe
 
 Three case stories, each on a sample payment. Pass a payment and its case files to `analyze_payment_lifecycle` to see them on one timeline.
 
-- **Unable to apply, then cancellation** (`pacs008-serial-credit-transfer.xml`): `camt110-investigation-request-utap.xml` as the creditor's bank sends it, `camt110-delivered-with-mt199.xml` as the debtor's bank receives it, `trck003-tracker-alert-inva.xml`, `camt111-investigation-response-cacr.xml`, `camt056-cancellation-request-dupl.xml` and `camt029-cancellation-accepted.xml`.
+- **Unable to apply, then cancellation** (`pacs008-serial-credit-transfer.xml`): `camt110-investigation-request-utap.xml` as the creditor's bank sends it, `camt110-delivered-with-mt199.xml` as the debtor's bank receives it, `trck005-case-status-asgn.xml`, `trck003-tracker-alert-inva.xml`, `camt111-investigation-response-cacr.xml`, `camt056-cancellation-request-dupl.xml` and `camt029-cancellation-accepted.xml`.
 - **Claim non-receipt** (`pacs008-gbp-to-atlas-via-correspondent.xml`): `camt110-investigation-request-ccnr.xml` and `camt111-investigation-response-booking.xml`.
 - **Older bank-to-bank messages** (`pacs009-eur-to-nova-wrong-correspondent.xml`): `camt087-request-to-modify.xml`, `camt027-claim-non-receipt.xml`, `camt026-unable-to-apply-in14.xml` and `camt028-additional-information.xml`.
 
@@ -39,5 +40,5 @@ How the samples were checked, with xmllint:
 - camt.110 and camt.111 Documents against the SwiftCase SR2025 usage-guideline schemas (UTAP and CCNR/CONR), and against the base ISO schemas.
 - camt.056 and camt.029 against the CBPR+ SR2026 usage-guideline schemas.
 - camt.026, camt.027, camt.028 and camt.087 against the base ISO schemas (camt.026.001.10, camt.027.001.10, camt.028.001.12, camt.087.001.09).
-- trck.003 was not schema-checked: it is a Swift-only message with no published schema to hand. It follows the field layout of Swift's trck.003.001.02 usage guideline.
+- trck.003 and trck.005 are Swift-only messages with no schema to check against here. They follow Swift's trck.003.001.02 usage guideline and the Swift schema structure published in the open-source Prowide ISO 20022 library.
 - The delivered camt.110 has two top-level elements, as Swift delivers it, so it is not one well-formed XML document. `explain_payment_message` and `analyze_payment_lifecycle` read it; `scrub_payment_message` does not.

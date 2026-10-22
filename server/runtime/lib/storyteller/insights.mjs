@@ -155,17 +155,24 @@ const LEGACY_ROLES = new Set([
     "additional-information",
     "modification-request",
 ]);
+const STATUS_NOTE = {
+    ASGN: "the request was assigned to the responder",
+    DTRP: "the request was delivered to the responder",
+    ARMD: "an automated reminder went to the responder",
+    ERMD: "the requestor's reminder went to the responder",
+    OBJT: "the requestor's objection went to the responder",
+};
 function caseInsights(c) {
     const out = [];
     const u = c.underlying;
     const quotesPayment = Boolean(u.uetr ?? u.endToEndId ?? u.txId ?? u.instrId ?? u.msgId);
-    if (c.role === "investigation-response") {
+    if (c.role === "investigation-response" || c.role === "investigation-status") {
         // Swift's camt.111 usage guidelines drop the underlying payment from the echoed request.
         if (!quotesPayment) {
             out.push({
                 id: "case-response-by-eir",
                 severity: "info",
-                message: "Investigation response quotes the case, not the payment. Load its camt.110 to link it to the payment by EIR.",
+                message: "This message quotes the case, not the payment. Load its camt.110 to link it to the payment by EIR.",
             });
         }
     }
@@ -183,7 +190,7 @@ function caseInsights(c) {
             message: "Case message does not quote the original UETR, so linking it to the payment is less reliable.",
         });
     }
-    if (!c.caseId && c.role !== "tracker-alert") {
+    if (!c.caseId && c.role !== "tracker-alert" && c.role !== "investigation-status") {
         out.push({
             id: "case-missing-id",
             severity: "info",
@@ -211,6 +218,14 @@ function caseInsights(c) {
             id: "cancellation-pending",
             severity: "info",
             message: "Cancellation is pending; expect a further camt.029 answer.",
+        });
+    }
+    if (c.role === "investigation-status") {
+        const meaning = c.statusCode ? STATUS_NOTE[c.statusCode] : undefined;
+        out.push({
+            id: "case-status-notification",
+            severity: "info",
+            message: `Swift case status${c.statusCode ? ` ${c.statusCode}` : ""}${meaning ? `: ${meaning}` : ""}. A notification from these files, not the case's current state.`,
         });
     }
     if (c.role === "tracker-alert") {

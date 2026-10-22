@@ -12,6 +12,7 @@ import { findDescendantsByLocalName, getChildrenByLocalName, getFirstChildByLoca
  *   camt.028 AdditionalPaymentInformation       -> "additional-information"
  *   camt.087 RequestToModifyPayment             -> "modification-request"
  *   trck.003 TrackerAlertNotification (Swift)   -> "tracker-alert"
+ *   trck.005 TrackerInvestigationStatusNotification (Swift) -> "investigation-status"
  *
  * Each one quotes the payment it concerns (Orgnl* references, UETR first), so the
  * correlation payload uses the original-* keys and lifecycle analysis threads the
@@ -143,6 +144,7 @@ const ROLE_LABEL = {
     "additional-information": "Additional payment information",
     "modification-request": "Request to modify payment",
     "tracker-alert": "Tracker alert",
+    "investigation-status": "Case status notification",
 };
 function rowsOf(summary) {
     const u = summary.underlying;
@@ -643,6 +645,71 @@ function trackerAlerts(body) {
     }
     return { header, cases };
 }
+/* ----------- trck.005 ----------- */
+/*
+ * Swift Tracker investigation status notification (TrackerInvestigationStatusNotification,
+ * versions .01 to .03 read alike). Case Orchestrator sends it to the case participants as a
+ * request moves: assigned (ASGN), delivered (DTRP), automated or escalated reminder (ARMD,
+ * ERMD), objection (OBJT). Element names follow the Swift schemas as published in the
+ * open-source Prowide ISO 20022 library. One summary per `InvstgtnTrckg` entry; it joins
+ * the camt.110 by EIR and the payment by UETR. No case state is kept.
+ */
+function investigationStatuses(body) {
+    const appHdr = appHdrOf(body);
+    const grpHdr = chain(body, "GrpHdr");
+    const header = {
+        id: text(chain(grpHdr, "MsgId")),
+        createdAt: text(chain(appHdr, "CreDt")) ?? text(chain(grpHdr, "CreDtTm")),
+        from: text(chain(appHdr, "Fr", "FIId", "FinInstnId", "BICFI")) ??
+            partyLabel(chain(grpHdr, "TrckrInfrmgPty", "Id")),
+        to: text(chain(appHdr, "To", "FIId", "FinInstnId", "BICFI")) ??
+            partyLabel(chain(grpHdr, "TrckrInfrmdPty", "Id")),
+    };
+    const cases = getChildrenByLocalName(body, "InvstgtnTrckg").map((tracking) => {
+        const status = chain(tracking, "StsAndAssgnmt");
+        const ids = chain(status, "InvstgtnId");
+        const tracked = chain(status, "TrckdMsgId");
+        const summary = {
+            ...baseCase("investigation-status"),
+            caseId: text(chain(ids, "EIR")) ?? text(chain(ids, "RqstrInvstgtnId")) ?? text(chain(ids, "Id")),
+            requestorInvestigationId: text(chain(ids, "RqstrInvstgtnId")),
+            eir: text(chain(ids, "EIR")),
+            assignmentId: header.id,
+            from: header.from,
+            to: header.to,
+            investigationType: codeOf(chain(tracking, "InvstgtnTp")),
+            investigationSubType: codeOf(chain(tracking, "InvstgtnSubTp")),
+            statusCode: codeOf(chain(status, "Sts")),
+            reasonCode: getChildrenByLocalName(status ?? tracking, "StsRsn")
+                .map(codeOf)
+                .filter(Boolean)
+                .join(", ") || null,
+            additionalInfo: getChildrenByLocalName(status ?? tracking, "AddtlInf")
+                .map(text)
+                .filter(Boolean)
+                .join(" / ") || null,
+            underlying: underlyingChoice(tracking),
+        };
+        summary.details = [
+            {
+                label: "Status",
+                sequence: null,
+                rows: rows([
+                    ["Status date", dateOf(chain(status, "Dt"))],
+                    ["Message concerned", text(chain(tracked, "MsgNmId"))],
+                    ["Message ID concerned", text(chain(tracked, "MsgId"))],
+                    ["Requestor", partyLabel(chain(status, "InvstgtnRqstr"))],
+                    ["Responder", partyLabel(chain(status, "InvstgtnRspndr"))],
+                    ["Responder investigation ID", text(chain(ids, "RspndrInvstgtnId"))],
+                    ["Notification type", codeOf(chain(grpHdr, "NtfctnTp"))],
+                    ["Notification sub-type", codeOf(chain(grpHdr, "NtfctnSubTp"))],
+                ]),
+            },
+        ].filter((d) => d.rows.length > 0);
+        return summary;
+    });
+    return { header, cases };
+}
 /* ----------- embedded MT copy (in-flow translation) ----------- */
 function commentsOf(node, out = []) {
     if (!node)
@@ -735,6 +802,8 @@ export function extractCase(body, kind) {
                 return modificationRequest(body);
             case "trck.003":
                 return trackerAlerts(body);
+            case "trck.005":
+                return investigationStatuses(body);
         }
     })();
     const first = cases[0];

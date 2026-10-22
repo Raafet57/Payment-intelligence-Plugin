@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+    <Fr><FIId><FinInstnId><BICFI>TRCKCHZZXXX</BICFI></FinInstnId></FIId></Fr>
+    <To><FIId><FinInstnId><BICFI>NWBKGB2LXXX</BICFI></FinInstnId></FIId></To>
+    <BizMsgIdr>CASESTS-0615-0007</BizMsgIdr>
+    <MsgDefIdr>trck.005.001.02</MsgDefIdr>
+    <BizSvc>swift.casemgt.01</BizSvc>
+    <CreDt>2026-06-15T08:40:06.000Z</CreDt>
+  </AppHdr>
+  <Document xmlns="urn:swift:xsd:trck.005.001.02">
+    <TrckrInvstgtnStsNtfctn>
+      <GrpHdr>
+        <MsgId>CASESTS-0615-0007</MsgId>
+        <CreDtTm>2026-06-15T08:40:06.000Z</CreDtTm>
+      </GrpHdr>
+      <InvstgtnTrckg>
+        <InvstgtnTp>
+          <Cd>UTAP</Cd>
+        </InvstgtnTp>
+        <StsAndAssgnmt>
+          <Sts>
+            <Cd>ASGN</Cd>
+          </Sts>
+          <Dt>
+            <DtTm>2026-06-15T08:40:06.000Z</DtTm>
+          </Dt>
+          <TrckdMsgId>
+            <MsgId>UTAP-20260615-0007</MsgId>
+            <MsgNmId>camt.110.001.01</MsgNmId>
+            <CreDtTm>2026-06-15T08:40:00.000Z</CreDtTm>
+          </TrckdMsgId>
+          <InvstgtnId>
+            <RqstrInvstgtnId>NWB2606150007</RqstrInvstgtnId>
+            <EIR>c1d2e3f4-0a1b-4c2d-8e3f-5a6b7c8d9e01</EIR>
+          </InvstgtnId>
+          <InvstgtnRqstr>
+            <Agt>
+              <FinInstnId>
+                <BICFI>NWBKGB2LXXX</BICFI>
+              </FinInstnId>
+            </Agt>
+          </InvstgtnRqstr>
+          <InvstgtnRspndr>
+            <Agt>
+              <FinInstnId>
+                <BICFI>DEUTDEFFXXX</BICFI>
+              </FinInstnId>
+            </Agt>
+          </InvstgtnRspndr>
+        </StsAndAssgnmt>
+        <Undrlyg>
+          <IntrBk>
+            <OrgnlInstrId>TX-7741-INSTR</OrgnlInstrId>
+            <OrgnlUETR>7a562c67-ca16-48ba-b074-65581be6f001</OrgnlUETR>
+          </IntrBk>
+        </Undrlyg>
+      </InvstgtnTrckg>
+    </TrckrInvstgtnStsNtfctn>
+  </Document>
+</Envelope>

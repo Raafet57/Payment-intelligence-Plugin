@@ -31,6 +31,8 @@ function roleLabel(doc) {
         return "Request to modify payment";
     if (doc.kind === "trck.003")
         return `Tracker alert${doc.status?.code ? ` (${doc.status.code})` : ""}`;
+    if (doc.kind === "trck.005")
+        return `Case status${doc.status?.code ? ` (${doc.status.code})` : ""}`;
     return "Credit notification";
 }
 function caseDetail(doc) {

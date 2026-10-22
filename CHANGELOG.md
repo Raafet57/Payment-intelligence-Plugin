@@ -1,13 +1,20 @@
 # Changelog
 
+## 0.3.2 (2026-10-22)
+
+- Swift case status notifications (trck.005, versions .01 to .03): `explain_payment_message` shows the status (ASGN assigned, DTRP delivered, ARMD and ERMD reminders, OBJT objection), the investigation type, the case's EIR and requestor id, the request it concerns and the payment's UETR. `analyze_payment_lifecycle` puts it on the case's timeline next to the camt.110 and camt.111, joined by EIR or UETR. No case state is kept.
+- `decode_reason_code` explains ASGN, DTRP, ARMD, ERMD and OBJT.
+- trck.003 samples and tests use Swift's own namespace (`urn:swift:xsd:trck.003.001.02`).
+- New sample `trck005-case-status-asgn.xml`.
+- Wording: tool descriptions, skills and README say what each check covers (field projection for triage, readiness hints) instead of disclaimers.
+
 ## 0.3.1 (2026-10-22)
 
 - camt.111 answer details: `explain_payment_message` returns what the responder sent back in `case.details`: booking confirmation (amount, value date, account, references), payment status, field amendments, compensation, value date adjustment, debit authorisation and narrative, each tied to the request item it answers.
 - Older ISO E&I messages: camt.026 (unable to apply, with its justification codes), camt.027 (claim non-receipt), camt.028 (additional payment information) and camt.087 (request to modify payment, with the fields it asks to change) are explained and join the payment's timeline. A camt.028 joins the case it answers by case id.
 - Swift Tracker alerts (trck.003): the alert status (INVA, RJIN, RJCR, WARN), the message it concerns and the payment's UETR, on the payment's timeline. No case state is kept.
 - Embedded MT 199: for a camt.110 delivered with an MT 199 copy, `case.embeddedMt` shows the MT fields and lists the camt.110 values the copy leaves out, from the translation report and by comparing values.
-- Eight new synthetic samples, checked against the Swift usage-guideline or ISO schemas where one is available (trck.003 is not schema-checked). Not a certified validator of any of these messages.
-- trck.005 (Tracker investigation status notification) is not covered yet (schema not public).
+- Eight new synthetic samples, checked against the Swift usage-guideline or ISO schemas where one is available (trck.003 is not schema-checked). Field projection for triage, not usage-guideline rule validation.
 
 ## 0.3.0 (2026-10-22)
 

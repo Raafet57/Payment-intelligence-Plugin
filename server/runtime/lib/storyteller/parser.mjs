@@ -37,7 +37,8 @@ export function parseStory(input) {
         kind !== "camt.027" &&
         kind !== "camt.028" &&
         kind !== "camt.087" &&
-        kind !== "trck.003") {
+        kind !== "trck.003" &&
+        kind !== "trck.005") {
         return { kind: "unknown", support: "unsupported", detectedKind: kind };
     }
     const body = firstElementChild(documentEl);
@@ -70,6 +71,7 @@ export function parseStory(input) {
         case "camt.028":
         case "camt.087":
         case "trck.003":
+        case "trck.005":
             return { kind, support: "structured", data: extractCase(body, kind) };
     }
 }

@@ -11,6 +11,7 @@ export const CASE_KINDS = new Set([
     "camt.110",
     "camt.111",
     "trck.003",
+    "trck.005",
 ]);
 export const EMPTY_KEYS = {
     uetr: null,

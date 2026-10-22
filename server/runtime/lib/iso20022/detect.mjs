@@ -18,6 +18,7 @@ const KNOWN_KINDS = new Set([
     "camt.028",
     "camt.087",
     "trck.003",
+    "trck.005",
 ]);
 const NAMESPACE_REGEX = /:(pacs|camt|trck)\.(\d{3})\.\d+\.\d+$/;
 /**

@@ -168,7 +168,7 @@
     {
       "name": "check_cbpr_readiness",
       "title": "Check CBPR+ readiness",
-      "description": "Local CBPR+ readiness hints: AppHdr/Document namespaces, schema-profile coverage, UETR, BIC and IBAN syntax. Not a certified validator.",
+      "description": "Local CBPR+ readiness hints: AppHdr/Document namespaces, schema-profile coverage, UETR, BIC and IBAN syntax. Readiness hints, not MyStandards usage-rule validation.",
       "inputSchema": {
         "type": "object",
         "properties": {

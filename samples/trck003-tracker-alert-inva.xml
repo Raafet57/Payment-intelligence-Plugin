@@ -8,7 +8,7 @@
     <BizSvc>swift.gpi.02</BizSvc>
     <CreDt>2026-06-16T09:58:30.000Z</CreDt>
   </AppHdr>
-  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:trck.003.001.02">
+  <Document xmlns="urn:swift:xsd:trck.003.001.02">
     <TrckrAlrtNtfctn>
       <GrpHdr>
         <MsgId>SRPALERT-0616-0042</MsgId>

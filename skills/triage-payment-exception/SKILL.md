@@ -1,11 +1,11 @@
 ---
 name: triage-payment-exception
-description: Triage a rejected, returned, stuck or disputed cross-border payment from its ISO 20022 messages (pacs.008 plus pacs.002 status reports, pacs.004 returns, camt.05x reports) and its case messages (camt.056 cancellation requests, camt.029 resolutions, camt.110 investigation requests, camt.111 investigation responses, the older camt.026, camt.027, camt.028 and camt.087, and Swift Tracker alerts trck.003). Use when the user asks why a payment failed, bounced or was returned, wants a payment or case timeline, has an open investigation or cancellation case, or needs to decide on an investigation, recall or repair action.
+description: Triage a rejected, returned, stuck or disputed cross-border payment from its ISO 20022 messages (pacs.008 plus pacs.002 status reports, pacs.004 returns, camt.05x reports) and its case messages (camt.056 cancellation requests, camt.029 resolutions, camt.110 investigation requests, camt.111 investigation responses, the older camt.026, camt.027, camt.028 and camt.087, and Swift Tracker messages trck.003 and trck.005). Use when the user asks why a payment failed, bounced or was returned, wants a payment or case timeline, has an open investigation or cancellation case, or needs to decide on an investigation, recall or repair action.
 ---
 
 # Triage a payment exception
 
-1. Collect every related file the user has: the original pacs.008 or pacs.009, any pacs.002, pacs.004 and camt.052/053/054 messages, any case messages (camt.056, camt.029, camt.110, camt.111, camt.026, camt.027, camt.028, camt.087), Tracker alerts (trck.003), and ACK/NACK files. Ask for a folder or list of paths.
+1. Collect every related file the user has: the original pacs.008 or pacs.009, any pacs.002, pacs.004 and camt.052/053/054 messages, any case messages (camt.056, camt.029, camt.110, camt.111, camt.026, camt.027, camt.028, camt.087), Tracker messages (trck.003, trck.005), and ACK/NACK files. Ask for a folder or list of paths.
 2. Call `analyze_payment_lifecycle` with `paths`. It groups files into threads by UETR, EndToEndId and TxId, and builds a timeline with warnings. Case messages join the thread of the payment they quote (its original UETR, end-to-end id or transaction id).
 3. For the failing message, call `explain_payment_message` to get the details. Call `decode_reason_code` for every status or reason code in it.
 4. Write the triage as:
@@ -31,6 +31,7 @@ When the files include case messages, add a **Case** section to the triage:
    - camt.029 status CNCL (cancelled, expect the funds back in a pacs.004), PDCR (pending) or RJCR (rejected, with a reason such as NOAS, NOOR, LEGL or ARDT).
    - The camt.111 `details` say what the responder found: a booking confirmation (amount, value date, account), a payment status, amendments to payment fields, compensation or a value date adjustment.
    - A trck.003 Tracker alert (INVA, RJIN, RJCR) means a case message was not accepted as sent. Look for the corrected resend after it.
+   - A trck.005 case status from Case Orchestrator says where a request went: ASGN (assigned to the responder), DTRP (delivered), ARMD or ERMD (a reminder went out), OBJT (an objection went out). It joins the case by EIR. Treat it as a dated notification in the files, not as the case's current state.
    - Decode every code with `decode_reason_code`. If a code is not in the curated set, say so.
 5. An `open-case` warning means a request has no answer in the files supplied. Say the case looks open from these files, not that it is open at the counterparty.
 6. Check the underlying references against the payment in the thread: UETR first, then instruction id, end-to-end id, message id and amount. Flag a case that quotes a different amount, or a UETR that matches no payment you were given.
@@ -39,6 +40,6 @@ When the files include case messages, add a **Case** section to the triage:
 ## Boundaries
 
 - Base the triage on the files supplied only. There is no live tracker, gpi, Case Orchestrator or scheme lookup behind these tools, and they cannot open, update, answer or close a case anywhere.
-- Case message support is a field projection for triage. It is not a certified validator of these messages against CBPR+, Swift Case Management or any usage guideline.
+- Case message support is a field projection for triage. It does not validate these messages against CBPR+, Swift Case Management or any usage-guideline rules.
 - When a delivered camt.110 carries an MT 199 copy, the MT copy can leave out values (`case.embeddedMt.notCarried`). Point this out, but don't map an MT 199 reply back into a camt.111.
 - The reason code list is a curated subset, not the full ISO External Code Set. If a code isn't found, say so.

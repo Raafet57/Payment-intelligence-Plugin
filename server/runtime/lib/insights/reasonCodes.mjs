@@ -200,6 +200,36 @@ const CODE_MAP = {
         label: "Warning (Swift Tracker alert)",
         demoNote: "trck.003: the Tracker flags something about the message it names, without rejecting it.",
     },
+    ASGN: {
+        code: "ASGN",
+        family: "status",
+        label: "Assigned (Swift case status)",
+        demoNote: "trck.005: Case Orchestrator assigned the investigation request to the responder and will make it available to them.",
+    },
+    DTRP: {
+        code: "DTRP",
+        family: "status",
+        label: "Delivered to responder (Swift case status)",
+        demoNote: "trck.005: the request was delivered to the responder. Swift says it is currently sent at the same time as ASGN.",
+    },
+    ARMD: {
+        code: "ARMD",
+        family: "status",
+        label: "Automated reminder (Swift case status)",
+        demoNote: "trck.005: Case Orchestrator generated a reminder and assigned it to the responder.",
+    },
+    ERMD: {
+        code: "ERMD",
+        family: "status",
+        label: "Escalated reminder (Swift case status)",
+        demoNote: "trck.005: the requestor sent a reminder (RQST) and Case Orchestrator assigned it to the responder.",
+    },
+    OBJT: {
+        code: "OBJT",
+        family: "status",
+        label: "Objection (Swift case status)",
+        demoNote: "trck.005: the requestor objected to the answer (RQOB) and Case Orchestrator assigned it to the responder.",
+    },
     IN14: {
         code: "IN14",
         family: "reason",

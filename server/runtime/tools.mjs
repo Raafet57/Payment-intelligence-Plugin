@@ -187,7 +187,7 @@ export function checkCbpr(input) {
     return {
         source: label,
         ...checkCbprReadiness(text),
-        caveat: "Local structure and namespace readiness hints only. Not a certified CBPR+ / MyStandards validator.",
+        caveat: "Local structure and namespace readiness hints only, not MyStandards usage-rule validation.",
     };
 }
 export function analyzePaymentLifecycle(input) {
